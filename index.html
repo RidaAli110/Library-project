@@ -3,15 +3,244 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="svg" href="./assets/icons/library-big.svg" />
+
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="./assets/icons/library-big.svg"
+    />
+
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="./css/dashboard.css" />
+
     <script defer type="module" src="/js/main.js"></script>
+
     <title>My Library</title>
   </head>
+
   <body>
     <header id="nav-bar">
-      <!-- Nav bar -->
+      <!-- Navbar which is rendered by JavaScript -->
     </header>
 
+    <main>
+      <h1 class="dashboard-h1">Welcome to your library.</h1>
+      <!-- Search -->
+      <form class="input-container" role="search">
+        <label for="book-search" class="sr-only">
+          Search for books by title or author
+        </label>
+        <input
+          id="book-search"
+          name="query"
+          class="input"
+          type="search"
+          placeholder="Search for books by title or author..."
+        />
+        <button class="search-btn" type="submit">Search</button>
+      </form>
+      <!-- Dashboard -->
+      <div id="grid">
+        <!-- Book of the Day and Explore by Genre -->
+        <div class="b-o-t-d-genre-container">
+          <!-- Book of the Day -->
+          <section class="book-o-t-d">
+            <div class="title-viewBtn">
+              <h2 class="book-o-t-d-title">Book of the Day</h2>
+
+              <button class="b-o-t-d-view-btn" type="button">View book</button>
+            </div>
+            <div class="book-o-t-d-container">
+              <img
+                class="book-o-t-d-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <div class="book-o-t-d-details">
+                <dl class="b-o-t-d-dl-container">
+                  <div class="book-o-t-d-book-details">
+                    <dt class="dt-text">Title:</dt>
+                    <dd class="dd-text">Atomic Habits</dd>
+                  </div>
+                  <div class="book-o-t-d-book-details">
+                    <dt class="dt-text">Author:</dt>
+                    <dd class="dd-text">James Clear</dd>
+                  </div>
+                  <div class="book-o-t-d-book-details">
+                    <dt class="dt-text">About this book</dt>
+                    <dd class="dd-text desc">
+                      Discover how small, consistent changes can help you build
+                      better habits and make lasting improvements.
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </section>
+          <!-- Explore by Genre -->
+          <section class="genre-tag-container">
+            <h2 class="genre-tag-title">Explore by Genre</h2>
+            <p class="genre-tag-p">Discover something new...</p>
+            <ul class="genre-list">
+              <li>
+                <button
+                  class="genre-list-tags"
+                  type="button"
+                  data-genre="mystery"
+                >
+                  Mystery
+                </button>
+              </li>
+
+              <li>
+                <button
+                  class="genre-list-tags"
+                  type="button"
+                  data-genre="horror"
+                >
+                  Horror
+                </button>
+              </li>
+
+              <li>
+                <button
+                  class="genre-list-tags"
+                  type="button"
+                  data-genre="history"
+                >
+                  History
+                </button>
+              </li>
+
+              <li>
+                <button
+                  class="genre-list-tags"
+                  type="button"
+                  data-genre="adventure"
+                >
+                  Adventure
+                </button>
+              </li>
+
+              <li>
+                <button
+                  class="genre-list-tags"
+                  type="button"
+                  data-genre="philosophy"
+                >
+                  Philosophy
+                </button>
+              </li>
+
+              <li>
+                <button
+                  class="genre-list-tags"
+                  type="button"
+                  data-genre="biography"
+                >
+                  Biography
+                </button>
+              </li>
+
+              <li>
+                <button
+                  class="genre-list-tags"
+                  type="button"
+                  data-genre="science_fiction"
+                >
+                  Science Fiction
+                </button>
+              </li>
+            </ul>
+          </section>
+        </div>
+        <!-- Trending Books -->
+        <section class="trending-container">
+          <h2 class="trending-title">Trending Books This Week</h2>
+          <div class="trending-books-container">
+            <div class="trending-book">
+              <img
+                class="trending-book-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <p class="trending-book-title">Atomic Habits</p>
+            </div>
+            <div class="trending-book">
+              <img
+                class="trending-book-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <p class="trending-book-title">Atomic Habits</p>
+            </div>
+            <div class="trending-book">
+              <img
+                class="trending-book-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <p class="trending-book-title">Atomic Habits</p>
+            </div>
+            <div class="trending-book">
+              <img
+                class="trending-book-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <p class="trending-book-title">Atomic Habits</p>
+            </div>
+            <div class="trending-book">
+              <img
+                class="trending-book-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <p class="trending-book-title">Atomic Habits</p>
+            </div>
+            <div class="trending-book">
+              <img
+                class="trending-book-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <p class="trending-book-title">Atomic Habits</p>
+            </div>
+            <div class="trending-book">
+              <img
+                class="trending-book-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <p class="trending-book-title">Atomic Habits</p>
+            </div>
+            <div class="trending-book">
+              <img
+                class="trending-book-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <p class="trending-book-title">Atomic Habits</p>
+            </div>
+            <div class="trending-book">
+              <img
+                class="trending-book-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <p class="trending-book-title">Atomic Habits</p>
+            </div>
+            <div class="trending-book">
+              <img
+                class="trending-book-img"
+                src="./assets/images/atomic-habits.jpg"
+                alt="Cover of Atomic Habits by James Clear"
+              />
+              <p class="trending-book-title">Atomic Habits</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
   </body>
 </html>
