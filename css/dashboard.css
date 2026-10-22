@@ -13,39 +13,37 @@
   margin-top: 2rem;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .input {
   width: 100%;
   max-width: 500px;
   padding: 0.7rem 1.25rem;
-  border: 0;
+  border: 1px solid var(--borders-panels);
   border-radius: 0.5rem;
-  background-color: var(--active-page-bg);
+  background-color: var(--cards);
+  color: var(--text-and-headings);
+  font: inherit;
+}
+
+.input::placeholder {
+  color: var(--secondary-text);
+  opacity: 1;
 }
 
 .search-btn {
   display: none;
-  background: none;
-  border: none;
+  border: 1px solid var(--buttons);
   background-color: var(--buttons);
-  color: white;
+  color: var(--search-btn-text);
   padding: 0.7rem 1.25rem;
   border-radius: 0.5rem;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .search-btn:hover {
   background-color: var(--secondary);
+  border-color: var(--secondary);
 }
 
 /* Main dashboard grid */
@@ -63,6 +61,7 @@
   flex-direction: column;
   gap: 1rem;
   background-color: var(--cards);
+  border: 1px solid var(--borders-panels);
   padding: 1rem;
   height: fit-content;
   border-radius: 1rem;
@@ -112,36 +111,38 @@
 .dt-text {
   color: var(--secondary-headings);
   font-size: 1.15rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .dd-text {
   color: var(--secondary-text);
-  font-size: 0, 9rem;
+  font-size: 0.9rem;
   overflow-wrap: anywhere;
 }
 
 .desc {
-  font-size: 0.7rem;
+  font-size: 0.875rem;
+  color: var(--secondary-text);
 }
 
 .b-o-t-d-view-btn {
   margin-left: auto;
-  background: none;
-  border: none;
+  background-color: var(--other-btns);
+  border: 1px solid var(--borders-panels);
   border-radius: 0.5rem;
   width: fit-content;
-  padding: 0.5rem;
-  background-color: var(--other-btns);
+  padding: 0.5rem 0.75rem;
   color: var(--text-and-headings);
-  font-weight: 500;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .b-o-t-d-view-btn:hover {
   background-color: var(--hover-btn);
 }
 
-/* Book of the Day + Explore by Genre wrapper */
+/* Book of the Day + Explore by Genre container */
 .b-o-t-d-genre-container {
   display: flex;
   flex-direction: column;
@@ -153,6 +154,7 @@
 .trending-container {
   min-width: 0;
   background-color: var(--cards);
+  border: 1px solid var(--borders-panels);
   padding: 1rem;
   border-radius: 1rem;
 }
@@ -179,6 +181,7 @@
 .trending-book-title {
   margin-top: 0.5rem;
   overflow-wrap: anywhere;
+  color: var(--text-and-headings);
 }
 
 .trending-book-img {
@@ -216,6 +219,7 @@
   list-style: none;
   margin: 0;
   padding: 1rem;
+  border: 1px solid var(--borders-panels);
   border-radius: 0.75rem;
   background-color: var(--cards);
 }
@@ -223,22 +227,20 @@
 .genre-list-tags {
   display: flex;
   background-color: var(--other-btns);
-  border: none;
+  border: 1px solid var(--borders-panels);
   border-radius: 0.5rem;
-  padding: 0.3rem 0.7rem;
-  color: var(--secondary-text);
-  font-family: cursive;
-  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-and-headings);
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .genre-list-tags:hover {
-  background-color: var(--hover-btn);
+  background: transparent;
 }
 
-
-
-/* media queries */
-/* Mobile only */
+/* Mobile */
 @media (max-width: 599px) {
   .b-o-t-d-genre-container {
     display: contents;
@@ -260,7 +262,7 @@
   }
 }
 
-/* Small tablet: 600px and above */
+/* Tablet */
 @media (min-width: 600px) {
   .search-btn {
     display: block;
@@ -271,9 +273,6 @@
   }
 }
 
-/* Tablet: 800px and above
-   Book of the Day and Explore by Genre side by side.
-   Trending Books under. */
 @media (min-width: 800px) {
   #grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -310,9 +309,7 @@
   }
 }
 
-/* Desktop: 1000px and above
-   Left column: Book of the Day and Explore by Genre.
-   Right column: Trending Books with scrolling. */
+/* Desktop */
 @media (min-width: 1200px) {
   #grid {
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
@@ -348,7 +345,7 @@
   }
 }
 
-/* Large screens: 1500px and above */
+/* Large screens */
 @media (min-width: 1500px) {
   main {
     width: calc(100% - 4rem);
