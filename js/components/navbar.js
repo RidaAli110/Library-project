@@ -13,15 +13,8 @@ export function Navbar(activePage) {
           />
           <span class="my-lib">My Library</span>
         </a>
-        <!-- Theme button -->
-        <div class="themeBtn-pageLinks">
-          <button type="button" class="theme-btn" aria-label='Switch to dark mode'>
-            <img
-              class="moon-img"
-              src="../../assets/icons/moon-regular.svg"
-              alt=""
-            />
-          </button>
+        <!-- Page Links -->
+        <div class="pageLinks">
           <ul class="pages-container">
               <li>
                 <a class="link-container ${activePage === 'home' ? 'active' : ''}"
