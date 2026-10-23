@@ -22,6 +22,7 @@
   min-width: 0;
   border: 1px solid var(--borders-panels);
   border-radius: 0.2rem;
+  box-shadow: 0 8px 20px rgb(53 49 46 / 15%);
 }
 
 .book-result-img {

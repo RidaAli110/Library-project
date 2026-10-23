@@ -1,5 +1,5 @@
 .dashboard-h1 {
-  margin-top: 2rem;
+  margin-top: 3rem;
   text-align: center;
   color: var(--text-and-headings);
 }
@@ -38,7 +38,6 @@
   border-radius: 0.5rem;
   font: inherit;
   font-weight: 500;
-  cursor: pointer;
 }
 
 .search-btn:hover {
@@ -87,6 +86,7 @@
   object-fit: contain;
   align-self: flex-start;
   border-radius: 0.5rem;
+  box-shadow: 0 8px 20px rgb(53 49 46 / 15%)
 }
 
 .book-o-t-d-details {
@@ -133,9 +133,10 @@
   width: fit-content;
   padding: 0.5rem 0.75rem;
   color: var(--text-and-headings);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 0.8rem;
   font-family: inherit;
-  cursor: pointer;
+  text-decoration: none;
 }
 
 .b-o-t-d-view-btn:hover {
@@ -191,6 +192,7 @@
   max-width: 130px;
   height: auto;
   border-radius: 0.5rem;
+  box-shadow: 0 8px 20px rgb(53 49 46 / 15%)
 }
 
 /* Explore by Genre */
@@ -234,7 +236,8 @@
   color: var(--text-and-headings);
   font-family: inherit;
   font-weight: 600;
-  cursor: pointer;
+  font-size: 0.8rem;
+  text-decoration: none;
 }
 
 .genre-list-tags:hover {
