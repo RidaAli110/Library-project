@@ -5,7 +5,7 @@ export function Navbar(activePage) {
   nav.classList.add('navbar');
 
   nav.innerHTML = `
-  <a class="header-logo" href="/">
+  <a class="header-logo" href="/index.html">
           <img
             class="book-open-img"
             src="../../assets/images/book-open-text.svg"

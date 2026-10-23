@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="../assets/icons/bookmark-white.svg" />
+    <link
+      rel="icon"
+      href="/assets/icons/bookmark-white.svg"
+      type="image/svg+xml"
+    />
     <title>My Books</title>
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/my-books.css" />
@@ -14,12 +18,16 @@
       <!-- Navbar -->
     </header>
     <main>
-        <h1 class="my-books-h1">My Books</h1>
+      <h1 class="my-books-h1">My Books</h1>
       <!-- Empty state -->
       <section class="empty-state">
-        <h2 class="empty-state-h2 empty-state-text">You haven't saved any books yet.</h2>
-        <p class="empty-state-p empty-state-text">Explore your library and save books you'd like to read.</p>
-        <a href="/" class="discover-btn"> Discover Books </a>
+        <h2 class="empty-state-h2 empty-state-text">
+          You haven't saved any books yet.
+        </h2>
+        <p class="empty-state-p empty-state-text">
+          Explore your library and save books you'd like to read.
+        </p>
+        <a href="/index.html" class="discover-btn"> Discover Books </a>
       </section>
       <!-- Saved Books -->
       <!-- Input -->
@@ -36,8 +44,8 @@
           <button class="saved-search-btn" type="submit">Search</button>
         </div>
         <!-- Books -->
-        <ul id="saved-books-grid" >
-           <li class="saved-book-card">
+        <ul id="saved-books-grid">
+          <li class="saved-book-card">
             <img
               class="saved-book-img"
               src="../assets/images/atomic-habits.jpg"
@@ -48,11 +56,30 @@
               <p class="saved-book-text">author name</p>
             </div>
             <div class="saved-books-btns">
-              <button type="button" class="view-book-btn">View Book</button>
+              <a href="/pages/book-details.html" class="view-book-btn"
+                >View Book</a
+              >
+              <button aria-label="Remove ${book.name}" type="button" class="remove-btn">Remove</button>
+            </div>
+          </li>
+          <li class="saved-book-card">
+            <img
+              class="saved-book-img"
+              src="../assets/images/atomic-habits.jpg"
+              alt=""
+            />
+            <div class="saved-details">
+              <p class="saved-book-text">Book title</p>
+              <p class="saved-book-text">author name</p>
+            </div>
+            <div class="saved-books-btns">
+              <a href="/pages/book-details.html" class="view-book-btn"
+                >View Book</a
+              >
               <button type="button" class="remove-btn">Remove</button>
             </div>
           </li>
-           <li class="saved-book-card">
+          <li class="saved-book-card">
             <img
               class="saved-book-img"
               src="../assets/images/atomic-habits.jpg"
@@ -63,11 +90,13 @@
               <p class="saved-book-text">author name</p>
             </div>
             <div class="saved-books-btns">
-              <button type="button" class="view-book-btn">View Book</button>
+              <a href="/pages/book-details.html" class="view-book-btn"
+                >View Book</a
+              >
               <button type="button" class="remove-btn">Remove</button>
             </div>
           </li>
-           <li class="saved-book-card">
+          <li class="saved-book-card">
             <img
               class="saved-book-img"
               src="../assets/images/atomic-habits.jpg"
@@ -78,11 +107,13 @@
               <p class="saved-book-text">author name</p>
             </div>
             <div class="saved-books-btns">
-              <button type="button" class="view-book-btn">View Book</button>
+              <a href="/pages/book-details.html" class="view-book-btn"
+                >View Book</a
+              >
               <button type="button" class="remove-btn">Remove</button>
             </div>
           </li>
-           <li class="saved-book-card">
+          <li class="saved-book-card">
             <img
               class="saved-book-img"
               src="../assets/images/atomic-habits.jpg"
@@ -93,11 +124,13 @@
               <p class="saved-book-text">author name</p>
             </div>
             <div class="saved-books-btns">
-              <button type="button" class="view-book-btn">View Book</button>
+              <a href="/pages/book-details.html" class="view-book-btn"
+                >View Book</a
+              >
               <button type="button" class="remove-btn">Remove</button>
             </div>
           </li>
-           <li class="saved-book-card">
+          <li class="saved-book-card">
             <img
               class="saved-book-img"
               src="../assets/images/atomic-habits.jpg"
@@ -108,22 +141,9 @@
               <p class="saved-book-text">author name</p>
             </div>
             <div class="saved-books-btns">
-              <button type="button" class="view-book-btn">View Book</button>
-              <button type="button" class="remove-btn">Remove</button>
-            </div>
-          </li>
-           <li class="saved-book-card">
-            <img
-              class="saved-book-img"
-              src="../assets/images/atomic-habits.jpg"
-              alt=""
-            />
-            <div class="saved-details">
-              <p class="saved-book-text">Book title</p>
-              <p class="saved-book-text">author name</p>
-            </div>
-            <div class="saved-books-btns">
-              <button type="button" class="view-book-btn">View Book</button>
+              <a href="/pages/book-details.html" class="view-book-btn"
+                >View Book</a
+              >
               <button type="button" class="remove-btn">Remove</button>
             </div>
           </li>

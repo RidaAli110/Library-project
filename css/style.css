@@ -53,6 +53,10 @@
   border: 0;
 }
 
+button {
+  cursor: pointer;
+}
+
 body {
   margin: 1rem;
   font-family: "Lora", serif;
@@ -89,7 +93,7 @@ body {
   color: var(--link-text);
 }
 
-/* Theme Button and Page Links */
+/*Page Links */
 .pageLinks {
   display: flex;
   flex-direction: row;
