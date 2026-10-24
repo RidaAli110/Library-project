@@ -1,3 +1,3 @@
-import { Navbar } from '../components/navbar.js';
+import { Navbar } from './navbar.js';
 
 document.querySelector('#nav-bar').append(Navbar('my-books'));

@@ -8,7 +8,7 @@ export function Navbar(activePage) {
   <a class="header-logo" href="/index.html">
           <img
             class="book-open-img"
-            src="../../assets/images/book-open-text.svg"
+            src="/assets/images/book-open-text.svg"
             alt=""
           />
           <span class="my-lib">My Library</span>
@@ -18,23 +18,23 @@ export function Navbar(activePage) {
           <ul class="pages-container">
               <li>
                 <a class="link-container ${activePage === 'home' ? 'active' : ''}"
-                 href="/"
+                 href="/index.html"
                 ${activePage === 'home' ? 'aria-current="page"' : ''}
                 aria-label='Home'
                 >
-                  <img class="page-img" src="../../assets/icons/house.svg" alt="" />
+                  <img class="page-img" src="/assets/icons/house.svg" alt="" />
                   <span class="link-text">Home</span>
                 </a>
               </li>
               <li>
                 <a class="link-container ${activePage === 'my-books' ? 'active' : ''}"
-                href="/pages/my-books.html"
+                href="/src/pages/my-books.html"
                 ${activePage === 'my-books' ? 'aria-current="page"' : ''}
                  aria-label='My Books'
                  >
                   <img
                     class="page-img"
-                    src="../../assets/icons/bookmark.svg"
+                    src="/assets/icons/bookmark.svg"
                     alt=""
                   />
                   <span class="link-text">My books</span>

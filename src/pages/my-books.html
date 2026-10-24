@@ -9,9 +9,9 @@
       type="image/svg+xml"
     />
     <title>My Books</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/my-books.css" />
-    <script defer src="/js/components/my-books.js" type="module"></script>
+    <link rel="stylesheet" href="/src/css/style.css" />
+    <link rel="stylesheet" href="/src/css/my-books.css" />
+    <script defer src="/src/js/components/my-books.js" type="module"></script>
   </head>
   <body>
     <header id="nav-bar">
@@ -48,7 +48,7 @@
           <li class="saved-book-card">
             <img
               class="saved-book-img"
-              src="../assets/images/atomic-habits.jpg"
+              src="/assets/images/atomic-habits.jpg"
               alt=""
             />
             <div class="saved-details">
@@ -56,7 +56,7 @@
               <p class="saved-book-text">author name</p>
             </div>
             <div class="saved-books-btns">
-              <a href="/pages/book-details.html" class="view-book-btn"
+              <a href="/src/pages/book-details.html" class="view-book-btn"
                 >View Book</a
               >
               <button aria-label="Remove ${book.name}" type="button" class="remove-btn">Remove</button>
