@@ -86,7 +86,7 @@
   object-fit: contain;
   align-self: flex-start;
   border-radius: 0.5rem;
-  box-shadow: 0 8px 20px rgb(53 49 46 / 15%)
+  box-shadow: 0 8px 20px rgb(53 49 46 / 15%);
 }
 
 .book-o-t-d-details {
@@ -170,7 +170,7 @@
 .trending-books-container {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-content: start;
+  align-content: center;
   gap: 1rem;
   min-width: 0;
   list-style: none;
@@ -178,6 +178,11 @@
 
 .trending-book {
   min-width: 0;
+  text-decoration: none;
+}
+
+.trending-book a {
+  text-decoration: none;
 }
 
 .trending-book-title {
@@ -186,13 +191,19 @@
   color: var(--text-and-headings);
 }
 
+.img-box-shadow {
+  width: 130px;
+  height: 180px;
+  overflow: visible;
+}
+
 .trending-book-img {
   display: block;
   width: 100%;
-  max-width: 130px;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
   border-radius: 0.5rem;
-  box-shadow: 0 8px 20px rgb(53 49 46 / 15%)
+  filter: drop-shadow(0 6px 8px rgb(53 49 46 / 18%));
 }
 
 /* Explore by Genre */
