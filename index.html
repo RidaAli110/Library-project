@@ -26,18 +26,27 @@
       <h1 class="dashboard-h1">Welcome to your library.</h1>
       <!-- Search -->
       <form class="input-container" role="search">
-        <label for="book-search" class="sr-only">
-          Search for books by title or author
-        </label>
-        <input
-          id="book-search"
-          name="query"
-          class="input"
-          type="search"
-          placeholder="Search for books by title or author..."
-        />
+        <div class="search-input-wrapper">
+          <label for="book-search" class="sr-only">
+            Search for books by title or author
+          </label>
+          <input
+            id="book-search"
+            name="query"
+            class="input"
+            type="search"
+            placeholder="Search for books by title or author..."
+          />
+          <section id="search-results">
+            <!-- Search results inserted by JavaScript -->
+          </section>
+        </div>
         <button class="search-btn" type="submit">Search</button>
       </form>
+      <!-- Search results -->
+      <section class="search-res">
+        <!-- Search results inserted by JavaScript -->
+      </section>
       <!-- Dashboard -->
       <section id="grid">
         <!-- Book of the Day and Explore by Genre -->
@@ -169,7 +178,7 @@
         <section class="trending-container">
           <h2 class="trending-title">Trending Books This Week</h2>
           <ul class="trending-books-container">
-        <!-- Cards are being rendered by JavaScript in './src/js/main.js' -->
+            <!-- Cards are being rendered by JavaScript in './src/js/main.js' -->
           </ul>
         </section>
       </section>
