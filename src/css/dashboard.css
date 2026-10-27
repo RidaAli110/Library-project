@@ -247,6 +247,10 @@
   text-decoration: none;
 }
 
+.trending-book:hover {
+  text-decoration: underline;
+}
+
 .trending-book a {
   text-decoration: none;
 }
