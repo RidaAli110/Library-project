@@ -34,3 +34,17 @@ export async function searchBook(book, signal) {
     }
   }
 }
+
+export async function getBookDetails(key) {
+  try {
+    const res = await fetch(`${URL}${key}.json`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch book details');
+    }
+    
+    const bookDetails = await res.json();
+    return bookDetails;
+  } catch (error) {
+    console.error(error);
+  }
+}
