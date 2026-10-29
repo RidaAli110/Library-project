@@ -10,30 +10,32 @@
     />
     <link rel="stylesheet" href="/src/css/style.css" />
     <link rel="stylesheet" href="/src/css/book-details.css" />
-    <script defer type="module" src="/src/js/components/book-details.js"></script>
+    <script
+      defer
+      type="module"
+      src="/src/js/components/book-details.js"
+    ></script>
     <title>Book details</title>
     <!-- render title with js  ${book.name} -->
   </head>
   <body>
-    <header id="nav-bar"></header>
+    <header id="nav-bar">
+      <!-- Navbar  -->
+    </header>
     <main>
-      <div class="back-btn-container">
-      </div>
       <section id="book-details-section">
         <img
-        class="book-details-img"
-          src="/assets/images/atomic-habits.jpg"
+          class="book-details-img"
+          src=""
           alt=""
         />
         <div class="details-wrapper">
           <div class="main-details">
-            <h1 class="book-title">Atomic Habits</h1>
-            <p class="author-text">Author name</p>
+            <h1 class="book-title"></h1>
+            <p class="author-text"></p>
           </div>
           <div class="desc-save-btn">
             <p class="desc-text">
-              Discover how small, consistent changes can help you build better
-              habits and make lasting improvements.
             </p>
             <button type="button" class="save-btn">Save to My Books</button>
           </div>
@@ -45,27 +47,27 @@
         <div class="topics info-wrapper">
           <p class="info-name">Topics</p>
           <ul class="topic-list">
-            <li class="topic-li">Topi 1</li>
-            <li class="topic-li">Topic 1</li>
-            <li class="topic-li">Topic 1</li>
+            <!-- Topics rendered by JavaScript -->
           </ul>
         </div>
         <dl>
           <div class="info-wrapper">
             <dt class="info-name">Number of pages</dt>
-            <dd>300</dd>
+            <dd class="pages dd-text"></dd>
           </div>
           <div class="info-wrapper">
             <dt class="info-name">First Published</dt>
-            <dd>2018</dd>
+            <dd class="publish-date dd-text"></dd>
           </div>
           <div class="info-wrapper">
             <dt class="info-name">Publisher</dt>
-            <dd>Penguin</dd>
+            <dd class="publisher dd-text"></dd>
           </div>
         </dl>
       </section>
-      <button type="button" class="back-btn">Go back</button>
+      <div class="back-btn-container">
+        <button type="button" class="back-btn">Go back</button>
+      </div>
     </main>
   </body>
 </html>
