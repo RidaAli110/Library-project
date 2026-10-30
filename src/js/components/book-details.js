@@ -1,5 +1,6 @@
 import { Navbar } from './navbar.js';
 import { getBookDetails } from '../api/open-library.js';
+import { displayBookDescription } from "../../utils/book-description.js";
 /*----------------------------Variables----------------------------*/
 const URL = 'https://openlibrary.org';
 const bookImg = document.querySelector('.book-details-img');
@@ -17,18 +18,16 @@ document.querySelector('#nav-bar').append(Navbar('book-details'));
 /*----------------------------Go back button----------------------------*/
 // This lets the user go back to the page they were last
 const backBtn = document.querySelector('.back-btn');
-backBtn.addEventListener('click', () => {
+backBtn?.addEventListener('click', () => {
   if (history.length > 1) {
-    // takes the user 1 step back in browser history
     history.back();
   } else {
-    // Fallback if there isn't a page t go back to
     window.location.href = '/index.html';
   }
 });
 
 /*---------------------------------Display Book Information---------------------------------*/
-export async function displayBookDetails() {
+async function displayBookDetails() {
   const params = new URLSearchParams(window.location.search);
   const bookKey = params.get('key');
   const results = await getBookDetails(bookKey);
@@ -49,40 +48,10 @@ export async function displayBookDetails() {
   };
 
   bookTitle.textContent = results.title || 'No Title Available';
-  displayBookDescription(results.description);
+  displayBookDescription(results.description, desc);
   displayAuthor(results.authors);
   displayTopics(results.subjects);
   displayBookEditionInfo(results.key);
-}
-
-/*--------------------Description-------------------- */
-function displayBookDescription(description) {
-  // Check if the description is a string
-  let descriptionText = '';
-  if (typeof description === 'string') {
-    descriptionText = description;
-  }
-  // Check if the description is an object
-  else if (typeof description === 'object' && description !== null) {
-    descriptionText = description.value;
-  }
-
-  // If there's no description available
-  if (!descriptionText) {
-    desc.textContent = 'No description available';
-  }
-
-  // Shorten descriptions to 250 letters, ending at a full stop
-  if (descriptionText.length > 300) {
-    const shortenedText = descriptionText.slice(0, 300);
-    const lastFullStop = shortenedText.lastIndexOf('.');
-    desc.textContent =
-      lastFullStop !== -1
-        ? shortenedText.slice(0, lastFullStop + 1)
-        : `${shortenedText}...`;
-  } else {
-    desc.textContent = descriptionText;
-  }
 }
 
 /*--------------------Author Name-------------------- */

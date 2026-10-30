@@ -1,13 +1,22 @@
 import { Navbar } from './components/navbar.js';
-import { getTrendingBooks, searchBook } from './api/open-library.js';
+import {
+  getBookDetails,
+  getBookOfTheDay,
+  getTrendingBooks,
+  searchBook,
+} from './api/open-library.js';
+import { displayBookDescription } from '../utils/book-description.js';
 /*----------------------------Variables----------------------------*/
 const trendingList = document.querySelector('.trending-books-container');
 const searchInput = document.getElementById('book-search');
-const searchBtn = document.querySelector('.search-btn');
 const resultsContainer = document.querySelector('#search-results');
 const searchWrapper = document.querySelector('.search-input-wrapper');
 const searchForm = document.querySelector('.input-container');
-
+const bookOfDayTitle = document.querySelector('.b-o-t-d-title');
+const bookOfDayAuthor = document.querySelector('.b-o-t-d-author');
+const bookOfDayDesc = document.querySelector('.b-o-t-d-desc');
+const bookOfDayImg = document.querySelector('.book-o-t-d-img');
+const bookOfDayViewBtn = document.querySelector('.b-o-t-d-view-btn');
 /*----------------------------Navbar render----------------------------*/
 const navbarContainer = document.querySelector('#nav-bar');
 navbarContainer.append(Navbar('home'));
@@ -19,6 +28,10 @@ let controller;
 const books = await getTrendingBooks();
 
 function displayTrendingBooks() {
+  if (!books || books.length === 0) {
+    return; // display a state here
+  }
+
   books.forEach((book) => {
     const li = document.createElement('li');
     li.classList.add('trending-book');
@@ -38,6 +51,7 @@ displayTrendingBooks();
 
 /*------------------------------Search for a book------------------------------ */
 function searchResults(e) {
+  // Abort the previous request when a new search starts. also prevents unnecessary requests
   if (controller) {
     controller.abort();
   }
@@ -54,10 +68,8 @@ function searchResults(e) {
   performSearch(userInput);
 }
 
+// Handles fetch and display logic
 async function performSearch(inputValue) {
-  // Handles fetch and display logic
-  // Abort the previous request when a new search starts. also prevents unnecessary requests
-
   // Creates a new controller for the current search request
   controller = new AbortController();
 
@@ -133,7 +145,23 @@ function closeInput(e) {
   }
 }
 
-/*------------------------------------Event listeners------------------------------------*/
+/* -------------------------------Display Book Of The Day------------------------------- */
+async function displayBookOfTheDay() {
+  const bookOfDay = await getBookOfTheDay();
+  if (!bookOfDay || bookOfDay.length < 1) {
+    return;
+  }
+
+  // Displaying Book of the day details
+  bookOfDayImg.src = `https://covers.openlibrary.org/b/id/${bookOfDay.cover_i}-M.jpg`;
+  bookOfDayTitle.textContent = bookOfDay.title;
+  bookOfDayAuthor.textContent = bookOfDay.author_name;
+  bookOfDayViewBtn.href = `/src/pages/book-details.html?key=${bookOfDay.key}`;
+  const bookOfDayDetails = await getBookDetails(bookOfDay.key);
+  displayBookDescription(bookOfDayDetails.description, bookOfDayDesc);
+}
+displayBookOfTheDay();
+/*----------------Event listeners----------------*/
 searchInput.addEventListener('input', searchResults);
 searchForm.addEventListener('submit', searchSubmit);
 document.addEventListener('click', closeInput);
