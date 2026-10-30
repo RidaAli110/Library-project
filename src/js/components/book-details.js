@@ -160,13 +160,6 @@ async function fetchEditionDetails(editionKey) {
   }
 }
 
-/* Logic behind fetching a books edition info.
-1. To get a books edition info you need a edition key. to get the edition key I used the workKey from results to fetch a array of entries that contain many editions in different languages and publish dates. 
-2. I selected a edition that was in English, the API does not provide the original book editions info, or it does and I'm just unable to find it. 
-3. Once I selected the edition in English I used the edition key to fetch the editions info that contained number of pages, date published etc. And displayed the data.
-
-*/
-
 /*---------------------------------Format date---------------------------------*/
 // Code from chatGPT
 function formatPublishDate(dateString) {
