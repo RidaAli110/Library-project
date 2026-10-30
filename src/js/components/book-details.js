@@ -4,7 +4,7 @@ import { getBookDetails } from '../api/open-library.js';
 const URL = 'https://openlibrary.org';
 const bookImg = document.querySelector('.book-details-img');
 const bookTitle = document.querySelector('.book-title');
-const authorText = document.querySelector('.author-text');
+const nameOfAuthor = document.querySelector('.author-text');
 const desc = document.querySelector('.desc-text');
 const pages = document.querySelector('.pages');
 const publishDate = document.querySelector('.publish-date');
@@ -14,6 +14,7 @@ const topicListContainer = document.querySelector('.topic-list');
 /*----------------------------Navbar render----------------------------*/
 document.querySelector('#nav-bar').append(Navbar('book-details'));
 
+/*----------------------------Go back button----------------------------*/
 // This lets the user go back to the page they were last
 const backBtn = document.querySelector('.back-btn');
 backBtn.addEventListener('click', () => {
@@ -28,7 +29,6 @@ backBtn.addEventListener('click', () => {
 
 /*---------------------------------Display Book Information---------------------------------*/
 export async function displayBookDetails() {
-  console.log('Function is running!');
   const params = new URLSearchParams(window.location.search);
   const bookKey = params.get('key');
   const results = await getBookDetails(bookKey);
@@ -37,80 +37,140 @@ export async function displayBookDetails() {
   if (!results) {
     return;
   }
-  // Displaying book information
-  bookImg.src = `https://covers.openlibrary.org/b/id/${results.covers[0]}-L.jpg`;
-  bookTitle.textContent = results.title;
 
-  //Description
-  const description = results.description;
-  // checking if it's a string
-  if (typeof description === 'string') {
-    desc.textContent = description;
-  }
-  // Checking if its a object
-  else if (typeof description === 'object') {
-    desc.textContent = description.value;
+  // Add details to page
+  if (results.covers?.length) {
+    bookImg.src = `https://covers.openlibrary.org/b/id/${results.covers[0]}-L.jpg`;
   } else {
-    // If theres no description available
+    bookImg.src = '/assets/images/No-Image-Placeholder.svg.webp';
+  }
+  bookImg.onerror = () => {
+    bookImg.src = '/assets/images/No-Image-Placeholder.svg.webp';
+  };
+
+  bookTitle.textContent = results.title || 'No Title Available';
+  displayBookDescription(results.description);
+  displayAuthor(results.authors);
+  displayTopics(results.subjects);
+  displayBookEditionInfo(results.key);
+}
+
+/*--------------------Description-------------------- */
+function displayBookDescription(description) {
+  // Check if the description is a string
+  let descriptionText = '';
+  if (typeof description === 'string') {
+    descriptionText = description;
+  }
+  // Check if the description is an object
+  else if (typeof description === 'object' && description !== null) {
+    descriptionText = description.value;
+  }
+
+  // If there's no description available
+  if (!descriptionText) {
     desc.textContent = 'No description available';
   }
 
-  //Author name
-  const authorNames = results.authors;
+  // Shorten descriptions to 250 letters, ending at a full stop
+  if (descriptionText.length > 300) {
+    const shortenedText = descriptionText.slice(0, 300);
+    const lastFullStop = shortenedText.lastIndexOf('.');
+    desc.textContent =
+      lastFullStop !== -1
+        ? shortenedText.slice(0, lastFullStop + 1)
+        : `${shortenedText}...`;
+  } else {
+    desc.textContent = descriptionText;
+  }
+}
+
+/*--------------------Author Name-------------------- */
+async function displayAuthor(authorId) {
+  // Array that holds the authors names
   const names = [];
-  if (authorNames.length < 1) {
-    authorText.textContent = 'Author information unavailable';
+
+  if (authorId.length < 1) {
+    nameOfAuthor.textContent = 'Author information unavailable';
     return;
   } else {
-    for (let author of authorNames) {
-      const authorNameList = await fetchAuthor(author.author.key);
-      console.log(authorNameList.name);
-      names.push(authorNameList.name);
-      console.log(names);
+    // Loop through the array of authorId's and use the author keys to fetch the authors names
+    for (let author of authorId) {
+      const authorNames = await fetchAuthor(author.author.key);
+      // Push the authors names to the names array
+      names.push(authorNames.name);
     }
   }
-  authorText.textContent = names.join(' - ');
+  // Display the authors names from the names array and if there is more than one name add '-' between.
+  nameOfAuthor.textContent = names.join(' - ');
+}
 
-  // Topics list
-  if (results.subjects.length < 1) {
-    topicLi.style.display = 'none';
+/*--------------------Topics List-------------------- */
+function displayTopics(subjects) {
+  // Fallback for when there are no subjects
+  if (!subjects || subjects.length === 0) {
     const p = document.createElement('p');
     p.classList.add('no-info-topics');
     p.textContent = 'No topics information available';
     topicListContainer.appendChild(p);
+    return;
   }
-  const subjects = results.subjects.filter((subject, index) => {
+
+  // Filter subjects to return topics less than 20 letters
+  const filteredSubjects = subjects?.filter((subject) => {
     return subject.length < 20;
   });
-  const subjectList = subjects.slice(0, 3);
-  subjectList.forEach((topic) => {
+
+  if (filteredSubjects.length === 0) {
+    const p = document.createElement('p');
+    p.classList.add('no-info-topics');
+    p.textContent = 'No topics information available';
+    topicListContainer.appendChild(p);
+    return;
+  }
+
+  // Select first 3 subjects and display on page
+  const subjectList = filteredSubjects?.slice(0, 3);
+  subjectList?.forEach((topic) => {
     const li = document.createElement('li');
     li.classList.add('topic-li');
     li.textContent = topic;
     topicListContainer.appendChild(li);
   });
+}
 
-  // Get Edition info and display book edition details
-  const editionKey = await fetchEditionKey(results.key);
+/*----------------Book Edition Information---------------- */
+async function displayBookEditionInfo(key) {
+  // Get the array of entries containing editions and their keys
+  const editionKey = await fetchEditionKey(key);
 
-  const rightEdition = editionKey.find((edition) => {
-    if (!edition.languages || edition.languages.length < 1) {
-      return false;
-    }
-    return edition.languages.some(
+  // Filter the entries to return the ones that are in english
+  const englishEdition = editionKey.filter((edition) => {
+    return edition.languages?.some(
       (language) => language.key === '/languages/eng',
     );
   });
 
-  if (!rightEdition) {
+  if (!englishEdition) {
     return;
   }
 
-  const editionDetails = await fetchEditionDetails(rightEdition.key);
-  console.log(editionDetails);
+  // returns an array containing the earliest editions
+  englishEdition.sort((a, b) => {
+    return getPublishYear(a.publish_date) - getPublishYear(b.publish_date);
+  });
+
+  // Selects the first edition
+  const earliestEdition = englishEdition[0];
+
+  // Fetch's the edition details using the earliest editions key.
+  const editionDetails = await fetchEditionDetails(earliestEdition.key);
+
+  // Display the information returned
   pages.textContent = editionDetails.number_of_pages || 'Not available';
   publishDate.textContent = formatPublishDate(editionDetails.publish_date);
-  publisher.textContent = editionDetails.publishers || 'Not available';
+  publisher.textContent =
+    editionDetails.publishers.join(' - ') || 'Not available';
 }
 
 /*---------------------------------Fetch Author details---------------------------------*/
@@ -131,13 +191,16 @@ displayBookDetails();
 /*---------------------------------Fetch edition key using the book workKey---------------------------------*/
 async function fetchEditionKey(workKey) {
   try {
-    const res = await fetch(`${URL}${workKey}/editions.json`);
+    const res = await fetch(
+      `${URL}${workKey}/editions.json?limit=100&offset=0`,
+    );
 
     if (!res.ok) {
       throw new Error('Failed to fetch');
     }
 
     const data = await res.json();
+    console.log(data.entries);
     return data.entries;
   } catch (error) {
     console.error(error);
@@ -160,11 +223,20 @@ async function fetchEditionDetails(editionKey) {
   }
 }
 
+/*-----Get publication year. Code from chatGPT----- */
+function getPublishYear(date) {
+  if (!date) return Infinity;
+  const year = date.match(/\b\d{4}\b/);
+
+  return year ? Number(year[0]) : Infinity;
+}
+
 /* Logic behind fetching a books edition info.
-1. To get a books edition info you need a edition key. to get the edition key I used the workKey from results to fetch a array of entries that contain many editions in different languages and publish dates. 
-2. I selected a edition that was in English, the API does not provide the original book editions info, or it does and I'm just unable to find it. 
-3. Once I selected the edition in English I used the edition key to fetch the editions info that contained number of pages, date published etc. And displayed the data.
+1. To get a books edition info you need a edition key. to get the edition key I used the workKey from the books results to fetch a array of entries that contain many editions in different languages and publish dates. 
+2. I selected a edition that was in English and the earliest edition. The API does not provide a original edition.
+3. Once I selected the earliest edition I used the edition key to fetch the editions info that contained number of pages, date published etc. And displayed the data.
 */
+
 /*---------------------------------Format date---------------------------------*/
 // Code from chatGPT
 function formatPublishDate(dateString) {

@@ -112,9 +112,8 @@ main {
 }
 
 .no-info-topics {
-  font-size: 1.2rem;
   color: var(--text-and-headings);
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .additional-details dl {
