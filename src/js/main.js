@@ -138,13 +138,6 @@ async function searchSubmit(e) {
   window.location.href = `/src/pages/book-details.html?key=${firstBook.key}`;
 }
 
-/* -------------------Closes the search results when clicked outside the input------------------- */
-function closeInput(e) {
-  if (!searchWrapper.contains(e.target)) {
-    resultsContainer.style.display = 'none';
-  }
-}
-
 /* -------------------------------Display Book Of The Day------------------------------- */
 async function displayBookOfTheDay() {
   const bookOfDay = await getBookOfTheDay();
@@ -158,9 +151,33 @@ async function displayBookOfTheDay() {
   bookOfDayAuthor.textContent = bookOfDay.author_name;
   bookOfDayViewBtn.href = `/src/pages/book-details.html?key=${bookOfDay.key}`;
   const bookOfDayDetails = await getBookDetails(bookOfDay.key);
-  displayBookDescription(bookOfDayDetails.description, bookOfDayDesc);
+  displayBookDescription(bookOfDayDetails?.description, bookOfDayDesc);
 }
 displayBookOfTheDay();
+
+/* -------------------------------Explore Genres------------------------------- */
+const genreLinks = document.querySelectorAll('.genre-list-tags');
+
+genreLinks.forEach((link) => {
+  link.addEventListener('click', (e) => {
+    console.log('1. Click detected');
+    const genre = e.currentTarget.dataset.genre;
+    const params = new URLSearchParams();
+    params.set('genre', genre);
+    const selectedGenre = params.toString();
+    console.log('2. URL:', `/src/pages/genre-results.html?${selectedGenre}`);
+    window.location.href = `/src/pages/genre-results.html?${selectedGenre}`;
+    console.log('Navigating to:', selectedGenre);
+    console.log(genre);
+  });
+});
+
+/* -------------------Closes the search results when clicked outside the input------------------- */
+function closeInput(e) {
+  if (!searchWrapper.contains(e.target)) {
+    resultsContainer.style.display = 'none';
+  }
+}
 /*----------------Event listeners----------------*/
 searchInput.addEventListener('input', searchResults);
 searchForm.addEventListener('submit', searchSubmit);
