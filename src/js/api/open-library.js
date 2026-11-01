@@ -13,6 +13,7 @@ export async function getTrendingBooks() {
     const data = await res.json();
     return data.works;
   } catch (error) {
+    console.error('Genre API request failed:', error);
     console.log(error);
   }
 }
@@ -62,6 +63,22 @@ export async function getBookOfTheDay() {
 
     const data = await res.json();
     return data.works[0];
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/*------------------------------------Get Selected Genre------------------------------------*/
+export async function getGenreBooks(genre) {
+  try {
+    const res = await fetch(`${URL}/subjects/${genre}.json?limit=20`);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch ${genre} books`);
+    }
+
+    const data = await res.json();
+    return data.works;
   } catch (error) {
     console.error(error);
   }

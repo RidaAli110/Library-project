@@ -6,6 +6,7 @@ import {
   searchBook,
 } from './api/open-library.js';
 import { displayBookDescription } from '../utils/book-description.js';
+
 /*----------------------------Variables----------------------------*/
 const trendingList = document.querySelector('.trending-books-container');
 const searchInput = document.getElementById('book-search');
@@ -17,16 +18,28 @@ const bookOfDayAuthor = document.querySelector('.b-o-t-d-author');
 const bookOfDayDesc = document.querySelector('.b-o-t-d-desc');
 const bookOfDayImg = document.querySelector('.book-o-t-d-img');
 const bookOfDayViewBtn = document.querySelector('.b-o-t-d-view-btn');
+const genreLinks = document.querySelectorAll('.genre-list-tags');
+
 /*----------------------------Navbar render----------------------------*/
 const navbarContainer = document.querySelector('#nav-bar');
 navbarContainer.append(Navbar('home'));
+
+/*----------------------------Event Listeners----------------------------*/
+searchInput.addEventListener('input', searchResults);
+searchForm.addEventListener('submit', searchSubmit);
+genreLinks.forEach((link) => {
+  link.addEventListener('click', handleGenreClick);
+});
+document.addEventListener('click', closeInput);
+
+/*----------------------------Fetch Functions----------------------------*/
+const books = await getTrendingBooks();
+const bookOfDay = await getBookOfTheDay();
 
 // Stores the controller so the last search request can be cancelled
 let controller;
 
 /* ------------------------Displaying Trending books from API-------------------------*/
-const books = await getTrendingBooks();
-
 function displayTrendingBooks() {
   if (!books || books.length === 0) {
     return; // display a state here
@@ -38,9 +51,9 @@ function displayTrendingBooks() {
     li.innerHTML = `<a href='/src/pages/book-details.html?key=${book.key}'>
     <div class='img-box-shadow'>
     <img
-     class="trending-book-img"
-     src= "https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg"
-     alt = '${book.title} by ${book.author_name}' />
+    class="trending-book-img"
+    src= "https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg"
+    alt = '${book.title} by ${book.author_name}' />
     </div>
     <p class="trending-book-title">${book.title}</p> </a>`;
 
@@ -132,6 +145,7 @@ async function searchSubmit(e) {
 
   const results = await performSearch(searchInputValue);
   if (!Array.isArray(results) || results.length < 1) {
+    resultsContainer.innerHTML = `<p class='no-result'>No books found. Try again.</p>`;
     return;
   }
   const firstBook = results[0];
@@ -140,7 +154,6 @@ async function searchSubmit(e) {
 
 /* -------------------------------Display Book Of The Day------------------------------- */
 async function displayBookOfTheDay() {
-  const bookOfDay = await getBookOfTheDay();
   if (!bookOfDay || bookOfDay.length < 1) {
     return;
   }
@@ -156,21 +169,16 @@ async function displayBookOfTheDay() {
 displayBookOfTheDay();
 
 /* -------------------------------Explore Genres------------------------------- */
-const genreLinks = document.querySelectorAll('.genre-list-tags');
 
-genreLinks.forEach((link) => {
-  link.addEventListener('click', (e) => {
-    console.log('1. Click detected');
-    const genre = e.currentTarget.dataset.genre;
-    const params = new URLSearchParams();
-    params.set('genre', genre);
-    const selectedGenre = params.toString();
-    console.log('2. URL:', `/src/pages/genre-results.html?${selectedGenre}`);
-    window.location.href = `/src/pages/genre-results.html?${selectedGenre}`;
-    console.log('Navigating to:', selectedGenre);
-    console.log(genre);
-  });
-});
+function handleGenreClick(e) {
+  e.preventDefault();
+
+  const genre = e.currentTarget.dataset.genre;
+  const params = new URLSearchParams();
+  params.set('genre', genre);
+
+  window.location.href = `/src/pages/genre-results.html?${params}`;
+}
 
 /* -------------------Closes the search results when clicked outside the input------------------- */
 function closeInput(e) {
@@ -178,7 +186,3 @@ function closeInput(e) {
     resultsContainer.style.display = 'none';
   }
 }
-/*----------------Event listeners----------------*/
-searchInput.addEventListener('input', searchResults);
-searchForm.addEventListener('submit', searchSubmit);
-document.addEventListener('click', closeInput);
