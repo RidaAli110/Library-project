@@ -1,6 +1,7 @@
 import { Navbar } from './navbar.js';
-import { getBookDetails } from '../api/open-library.js';
+import { getBookDetails, fetchAuthor } from '../api/open-library.js';
 import { displayBookDescription } from "../../utils/book-description.js";
+
 /*----------------------------Variables----------------------------*/
 const URL = 'https://openlibrary.org';
 const bookImg = document.querySelector('.book-details-img');
@@ -142,26 +143,13 @@ async function displayBookEditionInfo(key) {
     editionDetails.publishers.join(' - ') || 'Not available';
 }
 
-/*---------------------------------Fetch Author details---------------------------------*/
-async function fetchAuthor(authorKey) {
-  try {
-    const res = await fetch(`${URL}${authorKey}.json`);
-    if (!res.ok) {
-      throw new Error('Failed to fetch author data');
-    }
-    const authorData = await res.json();
-    return authorData;
-  } catch (error) {
-    console.error(error);
-  }
-}
 displayBookDetails();
 
 /*---------------------------------Fetch edition key using the book workKey---------------------------------*/
 async function fetchEditionKey(workKey) {
   try {
     const res = await fetch(
-      `${URL}${workKey}/editions.json?limit=100&offset=0`,
+      `${URL}${workKey}/editions.json?limit=200&offset=0`,
     );
 
     if (!res.ok) {

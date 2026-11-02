@@ -169,7 +169,6 @@ async function displayBookOfTheDay() {
 displayBookOfTheDay();
 
 /* -------------------------------Explore Genres------------------------------- */
-
 function handleGenreClick(e) {
   e.preventDefault();
 

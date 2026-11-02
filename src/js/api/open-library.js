@@ -7,14 +7,13 @@ export async function getTrendingBooks() {
     const res = await fetch(`${URL}/trending/weekly.json?limit=16`);
 
     if (!res.ok) {
-      throw new Error('failed to fetch');
+      throw new Error('failed to fetch trending books');
     }
 
     const data = await res.json();
     return data.works;
   } catch (error) {
-    console.error('Genre API request failed:', error);
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -34,6 +33,20 @@ export async function searchBook(book, signal) {
     if (error.name !== 'AbortError') {
       console.error(error);
     }
+  }
+}
+
+/*---------------------------------Fetch Author details---------------------------------*/
+export async function fetchAuthor(authorKey) {
+  try {
+    const res = await fetch(`${URL}${authorKey}.json`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch author data');
+    }
+    const authorData = await res.json();
+    return authorData;
+  } catch (error) {
+    console.error(error);
   }
 }
 
