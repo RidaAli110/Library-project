@@ -35,7 +35,8 @@ async function displayGenreBooks() {
     li.innerHTML = `<img
     class="book-result-img"
     src= 'https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg'
-    alt=""
+     onerror="this.onerror=null; this.src='/assets/images/no-cover.png';"
+    alt="Cover of ${book.title}"
     />
     <div>
     <p class="result-text book-title">${book.title}</p>
