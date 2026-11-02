@@ -45,6 +45,7 @@
   border: 1px solid var(--borders-panels);
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
+  margin-top: auto;
   color: var(--text-and-headings);
   font-weight: 700;
   font-family: inherit;
