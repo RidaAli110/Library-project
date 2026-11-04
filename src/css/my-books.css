@@ -97,7 +97,7 @@
   background-color: var(--cards);
   border: 1px solid var(--borders-panels);
   border-radius: 0.3rem;
-  box-shadow: 0 8px 20px rgb(53 49 46 / 15%)
+  box-shadow: 0 8px 20px rgb(53 49 46 / 15%);
 }
 
 .saved-book-img {
@@ -161,7 +161,16 @@
 
 /* media queries */
 @media (min-width: 600px) {
+  #saved-books-grid {
+    justify-content: start;
+  }
   .saved-search-btn {
     display: block;
+  }
+}
+
+@media (min-width: 700px) {
+  #saved-books-grid {
+    margin: 1.5rem 5rem;
   }
 }
