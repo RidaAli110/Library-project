@@ -1,8 +1,12 @@
 import { Navbar } from './navbar.js';
 import { getBookDetails, fetchAuthor } from '../api/open-library.js';
-import { displayBookDescription } from "../../utils/book-description.js";
+import { displayBookDescription } from '../../utils/book-description.js';
+import {
+  loadSavedBooks,
+  saveBookToLocalStorage,
+} from '../../utils/save-to-books.js';
 
-/*----------------------------Variables----------------------------*/
+/*-------------------------------------------Variables-------------------------------------------*/
 const URL = 'https://openlibrary.org';
 const bookImg = document.querySelector('.book-details-img');
 const bookTitle = document.querySelector('.book-title');
@@ -12,6 +16,9 @@ const pages = document.querySelector('.pages');
 const publishDate = document.querySelector('.publish-date');
 const publisher = document.querySelector('.publisher');
 const topicListContainer = document.querySelector('.topic-list');
+const saveBtn = document.querySelector('.save-btn');
+
+/*-------------------------------------------Event listeners-------------------------------------------*/
 
 /*----------------------------Navbar render----------------------------*/
 document.querySelector('#nav-bar').append(Navbar('book-details'));
@@ -37,6 +44,30 @@ async function displayBookDetails() {
   if (!results) {
     return;
   }
+
+  const booksSaved = loadSavedBooks();
+  const isBookSaved = booksSaved.some((book) => {
+    return results.key === book.key;
+  });
+
+  if (isBookSaved) {
+    saveBtn.textContent = 'Remove Book';
+  } else {
+    saveBtn.textContent = 'Save to My Books';
+  }
+
+  saveBtn.addEventListener('click', () => {
+    const updated = saveBookToLocalStorage(results);
+    const isBookUpdated = updated.some((book) => {
+      return book.key === results.key;
+    });
+
+    if (isBookUpdated) {
+      saveBtn.textContent = 'Remove Book';
+    } else {
+      saveBtn.textContent = 'Save to My Books';
+    }
+  });
 
   // Add details to page
   if (results.covers?.length) {
@@ -109,7 +140,7 @@ function displayTopics(subjects) {
   });
 }
 
-/*----------------Book Edition Information---------------- */
+/*------------------------------------------Book Edition Information------------------------------------------*/
 async function displayBookEditionInfo(key) {
   // Get the array of entries containing editions and their keys
   const editionKey = await fetchEditionKey(key);
