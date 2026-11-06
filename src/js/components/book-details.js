@@ -86,7 +86,7 @@ async function displayBookDetails() {
   displayBookEditionInfo(results.key);
 }
 
-/*--------------------Author Name-------------------- */
+/*--------------------Author Name--------------------*/
 async function displayAuthor(authorId) {
   // Array that holds the authors names
   const names = [];
@@ -134,7 +134,7 @@ function displayTopics(subjects) {
   const subjectList = filteredSubjects?.slice(0, 3);
   subjectList?.forEach((topic) => {
     const li = document.createElement('li');
-    li.classList.add('topic-li');
+    li.classList.add('topic-li'); 
     li.textContent = topic;
     topicListContainer.appendChild(li);
   });
@@ -166,12 +166,13 @@ async function displayBookEditionInfo(key) {
 
   // Fetch's the edition details using the earliest editions key.
   const editionDetails = await fetchEditionDetails(earliestEdition.key);
-
+console.log(editionDetails);
   // Display the information returned
   pages.textContent = editionDetails.number_of_pages || 'Not available';
   publishDate.textContent = formatPublishDate(editionDetails.publish_date);
   publisher.textContent =
-    editionDetails.publishers.join(' - ') || 'Not available';
+    editionDetails.publishers?.join(' - ') || 'Not available';
+
 }
 
 displayBookDetails();
