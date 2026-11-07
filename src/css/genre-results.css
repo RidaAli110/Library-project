@@ -34,8 +34,15 @@
   object-fit: contain;
 }
 
-.result-text {
-  font-size: small;
+.book-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--secondary-text);
+  overflow-wrap: anywhere;
+}
+
+.author-text {
+  font-size: 0.7rem;
   color: var(--secondary-text);
   overflow-wrap: anywhere;
 }

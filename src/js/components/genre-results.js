@@ -1,4 +1,5 @@
 import { getGenreBooks } from '../api/open-library.js';
+import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
 import { Navbar } from './navbar.js';
 
 /*---------------------------------Variables---------------------------------*/
@@ -28,23 +29,41 @@ async function displayGenreBooks() {
     genreTitle.textContent = 'No results found. Try again.';
     return;
   }
-
+  
   genreBooks.forEach((book) => {
     const li = document.createElement('li');
     li.classList.add('results-card');
-    li.innerHTML = `<img
-    class="book-result-img"
-    src= 'https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg'
-     onerror="this.onerror=null; this.src='/assets/images/no-cover.png';"
-    alt="Cover of ${book.title}"
-    />
-    <div>
-    <p class="result-text book-title">${book.title}</p>
-    </div>
-    <a href="/src/pages/book-details.html?key=${book.key}"
-    aria-label="View details for ${book.title}"
-    class="view-result-btn" >View Book</a>`;
-    genreTitle.textContent = `Results for ${formattedGenre} `;
+
+    // Book cover
+    const img = document.createElement('img');
+    img.classList.add('book-result-img');
+    img.src = `https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`;
+    img.alt = `Cover of ${book.title}`;
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = '/assets/images/No-Image-Placeholder.svg.webp';
+    };
+
+    // Details div
+    const detailsDiv = document.createElement('div');
+
+    // Title
+    const title = document.createElement('p');
+    title.classList.add('book-title');
+    title.textContent = book.title;
+
+    detailsDiv.appendChild(title);
+
+    // View book button
+    const viewBtn = document.createElement('a');
+    viewBtn.href = `/src/pages/book-details.html?key=${book.key}`;
+    viewBtn.setAttribute('aria-label', `View details for ${book.title}`);
+    viewBtn.classList.add('view-result-btn');
+    viewBtn.textContent = 'View Book';
+
+    genreTitle.textContent = `Results for ${formattedGenre}`;
+
+    li.append(img, detailsDiv, viewBtn);
     resultsUl.appendChild(li);
   });
 }
