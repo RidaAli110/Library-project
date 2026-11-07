@@ -52,7 +52,7 @@ async function displayBookDetails() {
   bookImg.onerror = () => {
     bookImg.src = '/assets/images/No-Image-Placeholder.svg.webp';
   };
-  
+
   bookTitle.textContent = results.title || 'No Title Available';
   displayBookDescription(results.description, desc);
   displayAuthor(results.authors);
@@ -98,19 +98,28 @@ async function displayAuthor(authorId) {
   // Array that holds the authors names
   const names = [];
 
-  if (authorId.length < 1) {
+  if (authorId == null || authorId.length < 1) {
     nameOfAuthor.textContent = 'Author information unavailable';
     return;
-  } else {
-    // Loop through the array of authorId's and use the author keys to fetch the authors names
-    for (let author of authorId) {
-      const authorNames = await fetchAuthor(author.author.key);
-      // Push the authors names to the names array
-      names.push(authorNames.name);
-    }
   }
+
+  // Loop through the array of authorId's and use the author keys to fetch the authors names
+  for (let author of authorId) {
+    const authorNames = await fetchAuthor(author.author.key);
+
+    // Check if the names exist
+    if (!authorNames.name) {
+      // If author name is missing skip, and move on to next author;
+      continue;
+    }
+
+    // Push the authors names to the names array
+    names.push(authorNames.name);
+  }
+
   // Display the authors names from the names array and if there is more than one name add '-' between.
-  nameOfAuthor.textContent = names.join(' - ');
+  nameOfAuthor.textContent =
+    names.join(' - ') || 'Author information unavailable';
 }
 
 /*--------------------Topics List-------------------- */
@@ -141,7 +150,7 @@ function displayTopics(subjects) {
   const subjectList = filteredSubjects?.slice(0, 3);
   subjectList?.forEach((topic) => {
     const li = document.createElement('li');
-    li.classList.add('topic-li'); 
+    li.classList.add('topic-li');
     li.textContent = topic;
     topicListContainer.appendChild(li);
   });
@@ -173,13 +182,12 @@ async function displayBookEditionInfo(key) {
 
   // Fetch's the edition details using the earliest editions key.
   const editionDetails = await fetchEditionDetails(earliestEdition.key);
-console.log(editionDetails);
+  console.log(editionDetails);
   // Display the information returned
   pages.textContent = editionDetails.number_of_pages || 'Not available';
   publishDate.textContent = formatPublishDate(editionDetails.publish_date);
   publisher.textContent =
     editionDetails.publishers?.join(' - ') || 'Not available';
-
 }
 
 displayBookDetails();
