@@ -1,5 +1,5 @@
 import { Navbar } from './navbar.js';
-import { getBookDetails } from '../api/open-library.js';
+import { getBookDetails, displayBookEditionInfo } from '../api/open-library.js';
 import { displayBookDescription } from '../../utils/book-description.js';
 import {
   loadSavedBooks,
@@ -8,7 +8,6 @@ import {
 import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
 
 /*-------------------------------------------Variables-------------------------------------------*/
-const URL = 'https://openlibrary.org';
 const bookImg = document.querySelector('.book-details-img');
 const bookTitle = document.querySelector('.book-title');
 const nameOfAuthor = document.querySelector('.author-text');
@@ -58,7 +57,7 @@ async function displayBookDetails() {
   displayBookDescription(results.description, desc);
   fetchAndDisplayAuthors(results.authors, nameOfAuthor);
   displayTopics(results.subjects);
-  displayBookEditionInfo(results.key);
+  displayBookEditionInfo(results.key, pages, publishDate, publisher);
 
   // Save to my books button
 
@@ -129,112 +128,6 @@ function displayTopics(subjects) {
   });
 }
 
-/*------------------------------------------Book Edition Information------------------------------------------*/
-async function displayBookEditionInfo(key) {
-  // Get the array of entries containing editions and their keys
-  const editionKey = await fetchEditionKey(key);
-
-  // Filter the entries to return the ones that are in english
-  const englishEdition = editionKey.filter((edition) => {
-    return edition.languages?.some(
-      (language) => language.key === '/languages/eng',
-    );
-  });
-
-  if (!englishEdition) {
-    return;
-  }
-
-  // returns an array containing the earliest editions
-  englishEdition.sort((a, b) => {
-    return getPublishYear(a.publish_date) - getPublishYear(b.publish_date);
-  });
-
-  // Selects the first edition
-  const earliestEdition = englishEdition[0];
-
-  // Fetch's the edition details using the earliest editions key.
-  const editionDetails = await fetchEditionDetails(earliestEdition.key);
-  console.log(editionDetails);
-  // Display the information returned
-  pages.textContent = editionDetails.number_of_pages || 'Not available';
-  publishDate.textContent = formatPublishDate(editionDetails.publish_date);
-  publisher.textContent =
-    editionDetails.publishers?.join(' - ') || 'Not available';
-}
-
 displayBookDetails();
 
-/*---------------------------------Fetch edition key using the book workKey---------------------------------*/
-async function fetchEditionKey(workKey) {
-  try {
-    const res = await fetch(
-      `${URL}${workKey}/editions.json?limit=200&offset=0`,
-    );
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch');
-    }
-
-    const data = await res.json();
-    console.log(data.entries);
-    return data.entries;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-/*---------------------------------Fetch edition details using the edition key---------------------------------*/
-async function fetchEditionDetails(editionKey) {
-  try {
-    const res = await fetch(`${URL}${editionKey}.json`);
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch edition Information');
-    }
-
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-/*-----Get publication year. Code from chatGPT----- */
-function getPublishYear(date) {
-  if (!date) return Infinity;
-  const year = date.match(/\b\d{4}\b/);
-
-  return year ? Number(year[0]) : Infinity;
-}
-
-/* Logic behind fetching a books edition info.
-1. To get a books edition info you need a edition key. to get the edition key I used the workKey from the books results to fetch a array of entries that contain many editions in different languages and publish dates. 
-2. I selected a edition that was in English and the earliest edition. The API does not provide a original edition.
-3. Once I selected the earliest edition I used the edition key to fetch the editions info that contained number of pages, date published etc. And displayed the data.
-*/
-
-/*---------------------------------Format date---------------------------------*/
-// Code from chatGPT
-function formatPublishDate(dateString) {
-  if (!dateString) return 'Not available';
-
-  // Keep year-only dates
-  if (/^\d{4}$/.test(dateString.trim())) {
-    return dateString.trim();
-  }
-
-  // Convert the date string into a JavaScript Date object
-  const date = new Date(dateString);
-
-  // Check whether JavaScript could understand the date
-  // If it couldn't, return the original value instead of displaying an invalid date
-  if (Number.isNaN(date.getTime())) {
-    return dateString;
-  }
-
-  // Format the date into british conventions
-  return new Intl.DateTimeFormat('en-GB', {
-    dateStyle: 'long',
-  }).format(date);
-}
