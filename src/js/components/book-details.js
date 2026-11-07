@@ -18,8 +18,6 @@ const publisher = document.querySelector('.publisher');
 const topicListContainer = document.querySelector('.topic-list');
 const saveBtn = document.querySelector('.save-btn');
 
-/*-------------------------------------------Event listeners-------------------------------------------*/
-
 /*----------------------------Navbar render----------------------------*/
 document.querySelector('#nav-bar').append(Navbar('book-details'));
 
@@ -45,30 +43,6 @@ async function displayBookDetails() {
     return;
   }
 
-  const booksSaved = loadSavedBooks();
-  const isBookSaved = booksSaved.some((book) => {
-    return results.key === book.key;
-  });
-
-  if (isBookSaved) {
-    saveBtn.textContent = 'Remove Book';
-  } else {
-    saveBtn.textContent = 'Save to My Books';
-  }
-
-  saveBtn.addEventListener('click', () => {
-    const updated = saveBookToLocalStorage(results);
-    const isBookUpdated = updated.some((book) => {
-      return book.key === results.key;
-    });
-
-    if (isBookUpdated) {
-      saveBtn.textContent = 'Remove Book';
-    } else {
-      saveBtn.textContent = 'Save to My Books';
-    }
-  });
-
   // Add details to page
   if (results.covers?.length) {
     bookImg.src = `https://covers.openlibrary.org/b/id/${results.covers[0]}-L.jpg`;
@@ -78,12 +52,45 @@ async function displayBookDetails() {
   bookImg.onerror = () => {
     bookImg.src = '/assets/images/No-Image-Placeholder.svg.webp';
   };
-
+  
   bookTitle.textContent = results.title || 'No Title Available';
   displayBookDescription(results.description, desc);
   displayAuthor(results.authors);
   displayTopics(results.subjects);
   displayBookEditionInfo(results.key);
+
+  // Save to my books button
+
+  // Get the books already saved from local storage
+  const booksSaved = loadSavedBooks();
+  // Check if the current book is already saved. Returns true if it exists. (.some always returns true or false.)
+  const isBookSaved = booksSaved.some((book) => {
+    return results.key === book.key;
+  });
+
+  // When the page loads set the buttons text based on if the book was already saved.
+  if (isBookSaved) {
+    saveBtn.textContent = 'Remove Book';
+  } else {
+    saveBtn.textContent = 'Save to My Books';
+  }
+
+  // Event listener for the save button
+  saveBtn.addEventListener('click', () => {
+    // Add or remove the current book and return an array of updated saved books
+    const updated = saveBookToLocalStorage(results);
+    // Check if the current book exists in the new updated array
+    const isBookUpdated = updated.some((book) => {
+      return book.key === results.key;
+    });
+
+    // Change the buttons text to match the books saved status when the button is clicked
+    if (isBookUpdated) {
+      saveBtn.textContent = 'Remove Book';
+    } else {
+      saveBtn.textContent = 'Save to My Books';
+    }
+  });
 }
 
 /*--------------------Author Name--------------------*/
