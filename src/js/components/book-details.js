@@ -1,10 +1,11 @@
 import { Navbar } from './navbar.js';
-import { getBookDetails, fetchAuthor } from '../api/open-library.js';
+import { getBookDetails } from '../api/open-library.js';
 import { displayBookDescription } from '../../utils/book-description.js';
 import {
   loadSavedBooks,
   saveBookToLocalStorage,
 } from '../../utils/save-to-books.js';
+import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
 
 /*-------------------------------------------Variables-------------------------------------------*/
 const URL = 'https://openlibrary.org';
@@ -55,7 +56,7 @@ async function displayBookDetails() {
 
   bookTitle.textContent = results.title || 'No Title Available';
   displayBookDescription(results.description, desc);
-  displayAuthor(results.authors);
+  fetchAndDisplayAuthors(results.authors, nameOfAuthor);
   displayTopics(results.subjects);
   displayBookEditionInfo(results.key);
 
@@ -93,34 +94,6 @@ async function displayBookDetails() {
   });
 }
 
-/*--------------------Author Name--------------------*/
-async function displayAuthor(authorId) {
-  // Array that holds the authors names
-  const names = [];
-
-  if (authorId == null || authorId.length < 1) {
-    nameOfAuthor.textContent = 'Author information unavailable';
-    return;
-  }
-
-  // Loop through the array of authorId's and use the author keys to fetch the authors names
-  for (let author of authorId) {
-    const authorNames = await fetchAuthor(author.author.key);
-
-    // Check if the names exist
-    if (!authorNames.name) {
-      // If author name is missing skip, and move on to next author;
-      continue;
-    }
-
-    // Push the authors names to the names array
-    names.push(authorNames.name);
-  }
-
-  // Display the authors names from the names array and if there is more than one name add '-' between.
-  nameOfAuthor.textContent =
-    names.join(' - ') || 'Author information unavailable';
-}
 
 /*--------------------Topics List-------------------- */
 function displayTopics(subjects) {

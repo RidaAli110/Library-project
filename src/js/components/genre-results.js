@@ -1,10 +1,10 @@
 import { getGenreBooks } from '../api/open-library.js';
-import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
 import { Navbar } from './navbar.js';
 
 /*---------------------------------Variables---------------------------------*/
 const genreTitle = document.querySelector('.results-h1');
 const resultsUl = document.querySelector('#results-grid');
+
 /*---------------------------------Navbar render---------------------------------*/
 document.querySelector('#nav-bar').append(Navbar('genre-results'));
 
