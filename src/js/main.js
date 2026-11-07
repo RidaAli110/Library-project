@@ -46,17 +46,31 @@ function displayTrendingBooks() {
   }
 
   books.forEach((book) => {
+    
     const li = document.createElement('li');
     li.classList.add('trending-book');
-    li.innerHTML = `<a href='/src/pages/book-details.html?key=${book.key}'>
-    <div class='img-box-shadow'>
-    <img
-    class="trending-book-img"
-    src= "https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg"
-    alt = '${book.title} by ${book.author_name}' />
-    </div>
-    <p class="trending-book-title">${book.title}</p> </a>`;
 
+    const bookLink = document.createElement('a');
+    bookLink.href = `/src/pages/book-details.html?key=${book.key}`
+
+    const imgDiv = document.createElement('div');
+    imgDiv.classList.add('img-box-shadow');
+    const img = document.createElement('img');
+    img.classList.add('trending-book-img');
+    img.src = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = '/assets/images/No-Image-Placeholder.svg.webp';
+    };
+    img.alt = `${book.title} by ${book.author_name}`;
+    imgDiv.append(img);
+
+    const title = document.createElement('p');
+    title.classList.add('trending-book-title');
+    title.textContent = `${book.title}`;
+
+    bookLink.append(imgDiv, title);
+    li.appendChild(bookLink);
     trendingList.appendChild(li);
   });
 }
@@ -124,8 +138,7 @@ async function performSearch(inputValue) {
       ? result.author_name.join(', ')
       : 'Unknown author';
 
-    div.appendChild(bookTitle);
-    div.appendChild(bookAuthor);
+    div.append(bookTitle, bookAuthor);
 
     link.appendChild(div);
     resultsContainer.appendChild(link);
@@ -160,11 +173,16 @@ async function displayBookOfTheDay() {
 
   // Displaying Book of the day details
   bookOfDayImg.src = `https://covers.openlibrary.org/b/id/${bookOfDay.cover_i}-M.jpg`;
+  bookOfDayImg.onerror = () => {
+      bookOfDayImg.onerror = null;
+      bookOfDayImg.src = '/assets/images/No-Image-Placeholder.svg.webp';
+    };
+
   bookOfDayTitle.textContent = bookOfDay.title;
   bookOfDayAuthor.textContent = bookOfDay.author_name;
   bookOfDayViewBtn.href = `/src/pages/book-details.html?key=${bookOfDay.key}`;
-  const bookOfDayDetails = await getBookDetails(bookOfDay.key);
-  displayBookDescription(bookOfDayDetails?.description, bookOfDayDesc);
+  const description = await getBookDetails(bookOfDay.key);
+  displayBookDescription(description?.description, bookOfDayDesc);
 }
 displayBookOfTheDay();
 
