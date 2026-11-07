@@ -114,8 +114,16 @@
   min-width: 0;
 }
 
-.saved-book-text {
+.title-text {
+  margin-bottom: 5px;
   color: var(--secondary-text);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.author-text {
+  color: var(--secondary-text);
+  font-size: 0.8rem;
   overflow-wrap: anywhere;
 }
 

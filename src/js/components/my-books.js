@@ -1,3 +1,88 @@
+import { loadSavedBooks } from '../../utils/save-to-books.js';
+import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
 import { Navbar } from './navbar.js';
 
+/*-------------------------------------------Variables-------------------------------------------*/
+const emptyState = document.querySelector('.empty-state-hidden');
+const savedBooksSection = document.querySelector('.saved-book-section');
+const savedBooksList = document.getElementById('saved-books-grid');
+
+/*-------------------------------------------Navbar render-------------------------------------------*/
 document.querySelector('#nav-bar').append(Navbar('my-books'));
+
+/*-------------------------------------------My Saved Books-------------------------------------------*/
+const mySavedBooks = loadSavedBooks();
+console.log(mySavedBooks);
+
+/*--------------------------------Check saved books to show empty state--------------------------------*/
+function checkBooks() {
+  if (mySavedBooks.length === 0) {
+    emptyState.hidden = false;
+    savedBooksSection.hidden = true;
+    return;
+  }
+
+  emptyState.hidden = true;
+  savedBooksSection.hidden = false;
+}
+
+checkBooks();
+
+/*-------------------------------------------Display Saved Books-------------------------------------------*/
+function displaySavedBooks() {
+  mySavedBooks.forEach( async (book) => {
+    // -----Book card-----
+    const li = document.createElement('li');
+    li.classList.add('saved-book-card');
+
+    // -----Book cover-----
+    const img = document.createElement('img');
+    img.classList.add('saved-book-img');
+    img.src = `https://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`;
+    img.alt = '';
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = '/assets/images/No-Image-Placeholder.svg.webp';
+    };
+
+    // -----Book details div-----
+    const detailsDiv = document.createElement('div');
+    detailsDiv.classList.add('saved-details');
+    // Title
+    const title = document.createElement('p');
+    title.classList.add('title-text');
+    title.textContent = book.title || 'No Title Available';
+    // Author Name
+    const authorName = document.createElement('p');
+    authorName.classList.add('author-text');
+    const authors = await  fetchAndDisplayAuthors(book.authors, authorName);
+    detailsDiv.append(title, authorName);
+
+    // -----Buttons div-----
+    const btnsDiv = document.createElement('div');
+    btnsDiv.classList.add('saved-books-btns');
+    // View book button
+    const viewBtn = document.createElement('a');
+    viewBtn.classList.add('view-book-btn');
+    viewBtn.setAttribute(
+      'aria-label',
+      `View details for ${title.textContent} by ${authorName.textContent} `,
+    );
+    viewBtn.href = `/src/pages/book-details.html?key=${book.key}`;
+    viewBtn.textContent = 'View Book';
+    // Remove book button
+    const removeBtn = document.createElement('button');
+    removeBtn.classList.add('remove-btn');
+    removeBtn.setAttribute(
+      'aria-label',
+      `Remove ${title.textContent} by ${authorName.textContent}`,
+    );
+    removeBtn.textContent = 'Remove';
+    btnsDiv.append(viewBtn, removeBtn);
+
+    li.append(img, detailsDiv, btnsDiv);
+    savedBooksList.appendChild(li);
+  });
+}
+
+displaySavedBooks();
