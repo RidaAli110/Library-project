@@ -14,7 +14,7 @@ const savedBooksList = document.getElementById('saved-books-grid');
 savedBooksList.addEventListener('click', removeBook);
 
 /*-------------------------------------------Navbar render-------------------------------------------*/
-document.querySelector('#nav-bar').append(Navbar('my-books'));
+document.querySelector('#nav-bar').append(Navbar('my-library'));
 
 /*-------------------------------------------My Saved Books-------------------------------------------*/
 let mySavedBooks = loadSavedBooks();
@@ -46,7 +46,7 @@ function displaySavedBooks() {
     // -----Book cover-----
     const img = document.createElement('img');
     img.classList.add('saved-book-img');
-    img.src = `https://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`;
+    img.src = `https://covers.openlibrary.org/b/id/${book.covers?.[0] ?? book.cover_id}-M.jpg` ; ;
     img.alt = '';
     img.onerror = () => {
       img.onerror = null;
@@ -83,7 +83,7 @@ function displaySavedBooks() {
     removeBtn.classList.add('remove-btn');
     removeBtn.setAttribute(
       'aria-label',
-      `Remove ${title.textContent} by ${authorName.textContent}`,
+      `Remove ${title.textContent} by ${authorName.textContent} from my library`,
     );
     removeBtn.textContent = 'Remove';
     btnsDiv.append(viewBtn, removeBtn);

@@ -15,7 +15,7 @@ export default async function fetchAndDisplayAuthors(
 
   // Loop through the array of authorId's and use the author keys to fetch the authors names
   for (let author of authorId) {
-    const authorNames = await fetchAuthor(author.author?.key);
+    const authorNames = await fetchAuthor(author.author?.key ?? author.key);
 
     // Check if the names exist
     if (!authorNames.name) {

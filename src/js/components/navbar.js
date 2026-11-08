@@ -11,7 +11,7 @@ export function Navbar(activePage) {
             src="/assets/images/book-open-text.svg"
             alt=""
           />
-          <span class="my-lib">My Library</span>
+          <span class="my-lib">no name</span>
         </a>
         <!-- Page Links -->
         <div class="pageLinks">
@@ -27,17 +27,17 @@ export function Navbar(activePage) {
                 </a>
               </li>
               <li>
-                <a class="link-container ${activePage === 'my-books' ? 'active' : ''}"
-                href="/src/pages/my-books.html"
-                ${activePage === 'my-books' ? 'aria-current="page"' : ''}
-                 aria-label='My Books'
+                <a class="link-container ${activePage === 'my-library' ? 'active' : ''}"
+                href="/src/pages/my-library.html"
+                ${activePage === 'my-library' ? 'aria-current="page"' : ''}
+                 aria-label='My library'
                  >
                   <img
                     class="page-img"
                     src="/assets/icons/bookmark.svg"
                     alt=""
                   />
-                  <span class="link-text">My books</span>
+                  <span class="link-text">My Library</span>
                 </a>
               </li>
               </ul>
