@@ -1,4 +1,4 @@
-import { handleSavedBook, updateSaveButtonText } from '../components/Save-to-my-library-button.js';
+import { handleSavedBook, updateSaveButtonText } from '../utils/Save-to-my-library-button.js';
 import { getGenreBooks } from '../api/open-library.js';
 import { Navbar } from '../components/navbar.js';
 
@@ -31,6 +31,8 @@ async function displayGenreBooks() {
     return;
   }
 
+  document.title = formattedGenre;
+  
   genreBooks.forEach((book) => {
     genreTitle.textContent = `Results for ${formattedGenre}`;
 
