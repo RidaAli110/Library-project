@@ -1,4 +1,4 @@
-import { fetchAuthor } from "../api/open-library.js";
+import { fetchAuthor } from '../api/open-library.js';
 
 export default async function fetchAndDisplayAuthors(
   authorId,
@@ -13,22 +13,24 @@ export default async function fetchAndDisplayAuthors(
     return;
   }
 
-  // Loop through the array of authorId's and use the author keys to fetch the authors names
-  for (let author of authorId) {
-    const authorNames = await fetchAuthor(author.author?.key ?? author.key);
+  // Create a promises array to fetch all the authors together
+  const authorNameFetchRequests = authorId.map((author) => {
+    return fetchAuthor(author.author?.key ?? author.key);
+  });
 
-    // Check if the names exist
-    if (!authorNames.name) {
-      // If author name is missing skip, and move on to next author;
+  // await for the requests to be finished and store the names in a variable
+  const authorsNamesArray = await Promise.all(authorNameFetchRequests);
+
+  // Loop through the authorNamesArray and push each name to names array
+  for (const authorNames of authorsNamesArray) {
+    // If a name is missing skip to the next
+    if (!authorNames?.name) {
       continue;
     }
-
-    // Push the authors names to the names array
     names.push(authorNames.name);
-  }
 
-  // Display the authors names from the names array and if there is more than one name add '-' between.
+  }
+  // Display the authors names from the names array
   authorTextVariable.textContent =
     names.join(' - ') || 'Author information unavailable';
-
 }
