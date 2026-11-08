@@ -12,6 +12,7 @@ export function displayBookDescription(description, descVariable) {
   // If there's no description available
   if (!descriptionText) {
     descVariable.textContent = 'No description available';
+    return;
   }
 
   // Shorten descriptions to 250 letters, ending at a full stop
