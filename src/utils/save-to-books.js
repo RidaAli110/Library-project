@@ -37,7 +37,7 @@ export function saveBookToLocalStorage(book) {
   return updatedBooksList;
 }
 
-/*----------------------------------Remove Book from local storage----------------------------------*/
+/*---------------------------------------Remove Book from local storage---------------------------------------*/
 export function removeBookFromLocalStorage(removedBook) {
   const savedBooks = loadSavedBooks();
 

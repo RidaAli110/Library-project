@@ -18,10 +18,10 @@ const publisher = document.querySelector('.publisher');
 const topicListContainer = document.querySelector('.topic-list');
 const saveBtn = document.querySelector('.save-btn');
 
-/*----------------------------Navbar render----------------------------*/
+/*------------------------------------------Navbar render------------------------------------------*/
 document.querySelector('#nav-bar').append(Navbar('book-details'));
 
-/*----------------------------Go back button----------------------------*/
+/*------------------------------------------Go back button------------------------------------------*/
 // This lets the user go back to the page they were last
 const backBtn = document.querySelector('.back-btn');
 backBtn?.addEventListener('click', () => {
@@ -32,7 +32,7 @@ backBtn?.addEventListener('click', () => {
   }
 });
 
-/*---------------------------------Display Book Information---------------------------------*/
+/*---------------------------------------Display Book Information---------------------------------------*/
 async function displayBookDetails() {
   const params = new URLSearchParams(window.location.search);
   const bookKey = params.get('key');
@@ -59,7 +59,7 @@ async function displayBookDetails() {
   displayTopics(results.subjects);
   displayBookEditionInfo(results.key, pages, publishDate, publisher);
 
-  // Save to my books button
+  // Save to my library button
 
   // Get the books already saved from local storage
   const booksSaved = loadSavedBooks();
@@ -72,7 +72,7 @@ async function displayBookDetails() {
   if (isBookSaved) {
     saveBtn.textContent = 'Remove Book';
   } else {
-    saveBtn.textContent = 'Save to My Books';
+    saveBtn.textContent = 'Save to My Library'
   }
 
   // Event listener for the save button
@@ -88,11 +88,10 @@ async function displayBookDetails() {
     if (isBookUpdated) {
       saveBtn.textContent = 'Remove Book';
     } else {
-      saveBtn.textContent = 'Save to My Books';
+      saveBtn.textContent = 'Save to My Library';
     }
   });
 }
-
 
 /*--------------------Topics List-------------------- */
 function displayTopics(subjects) {
@@ -129,5 +128,3 @@ function displayTopics(subjects) {
 }
 
 displayBookDetails();
-
-

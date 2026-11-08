@@ -5,7 +5,7 @@ import {
 import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
 import { Navbar } from './navbar.js';
 
-/*-------------------------------------------Variables-------------------------------------------*/
+/*---------------------------------------------Variables---------------------------------------------*/
 const emptyState = document.querySelector('.empty-state-hidden');
 const savedBooksSection = document.querySelector('.saved-book-section');
 const savedBooksList = document.getElementById('saved-books-grid');
@@ -14,7 +14,7 @@ const savedBooksList = document.getElementById('saved-books-grid');
 savedBooksList.addEventListener('click', removeBook);
 
 /*-------------------------------------------Navbar render-------------------------------------------*/
-document.querySelector('#nav-bar').append(Navbar('my-books'));
+document.querySelector('#nav-bar').append(Navbar('my-library'));
 
 /*-------------------------------------------My Saved Books-------------------------------------------*/
 let mySavedBooks = loadSavedBooks();
@@ -46,7 +46,7 @@ function displaySavedBooks() {
     // -----Book cover-----
     const img = document.createElement('img');
     img.classList.add('saved-book-img');
-    img.src = `https://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`;
+    img.src = `https://covers.openlibrary.org/b/id/${book.covers?.[0] ?? book.cover_id}-M.jpg` ; ;
     img.alt = '';
     img.onerror = () => {
       img.onerror = null;
@@ -83,7 +83,7 @@ function displaySavedBooks() {
     removeBtn.classList.add('remove-btn');
     removeBtn.setAttribute(
       'aria-label',
-      `Remove ${title.textContent} by ${authorName.textContent}`,
+      `Remove ${title.textContent} by ${authorName.textContent} from my library`,
     );
     removeBtn.textContent = 'Remove';
     btnsDiv.append(viewBtn, removeBtn);
@@ -95,7 +95,7 @@ function displaySavedBooks() {
 
 displaySavedBooks();
 
-/*-------------------------------------------Remove Book-------------------------------------------*/
+/*------------------------------------------------Remove Book------------------------------------------------*/
 function removeBook(e) {
   // Identifies the remove button that was clicked
   const removeBtn = e.target.closest('.remove-btn');
