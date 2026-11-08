@@ -177,7 +177,7 @@
   }
 }
 
-@media (min-width: 700px) {
+@media (min-width: 750px) {
   #saved-books-grid {
     margin: 1.5rem 5rem;
   }

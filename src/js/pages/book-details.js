@@ -6,6 +6,10 @@ import {
   saveBookToLocalStorage,
 } from '../../utils/save-to-books.js';
 import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
+import {
+  handleSavedBook,
+  updateSaveButtonText,
+} from '../components/Save-to-my-library-button.js';
 
 /*-------------------------------------------Variables-------------------------------------------*/
 const bookImg = document.querySelector('.book-details-img');
@@ -42,9 +46,9 @@ async function displayBookDetails() {
   if (!results) {
     return;
   }
-  
+
   document.title = results.title;
-  
+
   // Add details to page
   if (results.covers?.length) {
     bookImg.src = `https://covers.openlibrary.org/b/id/${results.covers[0]}-L.jpg`;
@@ -61,38 +65,11 @@ async function displayBookDetails() {
   displayTopics(results.subjects);
   displayBookEditionInfo(results.key, pages, publishDate, publisher);
 
-  // Save to my library button
-
-  // Get the books already saved from local storage
-  const booksSaved = loadSavedBooks();
-  // Check if the current book is already saved. Returns true if it exists. (.some always returns true or false.)
-  const isBookSaved = booksSaved.some((book) => {
-    return results.key === book.key;
-  });
-
-  // When the page loads set the buttons text based on if the book was already saved.
-  if (isBookSaved) {
-    saveBtn.textContent = 'Remove Book';
-  } else {
-    saveBtn.textContent = 'Save to My Library';
-  }
-
-  // Event listener for the save button
-  saveBtn.addEventListener('click', () => {
-    // Add or remove the current book and return an array of updated saved books
-    const updated = saveBookToLocalStorage(results);
-    // Check if the current book exists in the new updated array
-    const isBookUpdated = updated.some((book) => {
-      return book.key === results.key;
-    });
-
-    // Change the buttons text to match the books saved status when the button is clicked
-    if (isBookUpdated) {
-      saveBtn.textContent = 'Remove Book';
-    } else {
-      saveBtn.textContent = 'Save to My Library';
-    }
-  });
+  // ---Save to my library button---
+  // On first load update save button text base on if it is saved already
+  updateSaveButtonText(saveBtn, results);
+  // Add event listener to the save button of each book card
+  handleSavedBook(saveBtn, results);
 }
 
 /*--------------------Topics List-------------------- */
