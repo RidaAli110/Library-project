@@ -1,15 +1,11 @@
 import { Navbar } from '../components/navbar.js';
 import { getBookDetails, displayBookEditionInfo } from '../api/open-library.js';
-import { displayBookDescription } from '../../utils/book-description.js';
-import {
-  loadSavedBooks,
-  saveBookToLocalStorage,
-} from '../../utils/save-to-books.js';
-import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
+import { displayBookDescription } from '../utils/book-description.js';
+import fetchAndDisplayAuthors from '../utils/displayAuthorInfo.js';
 import {
   handleSavedBook,
   updateSaveButtonText,
-} from '../components/Save-to-my-library-button.js';
+} from '../utils/Save-to-my-library-button.js';
 
 /*-------------------------------------------Variables-------------------------------------------*/
 const bookImg = document.querySelector('.book-details-img');

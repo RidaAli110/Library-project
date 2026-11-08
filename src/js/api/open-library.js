@@ -1,6 +1,6 @@
 'use strict';
 const API_URL = 'https://openlibrary.org';
-import { getPublishYear, formatPublishDate } from "../../utils/date-utils.js";
+import { getPublishYear, formatPublishDate } from "../utils/date-utils.js";
 
 /*---------------------------------------------- Get Trending Books----------------------------------------------*/
 export async function getTrendingBooks() {

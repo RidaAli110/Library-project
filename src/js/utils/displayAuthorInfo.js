@@ -1,4 +1,4 @@
-import { fetchAuthor } from "../js/api/open-library.js";
+import { fetchAuthor } from "../api/open-library.js";
 
 export default async function fetchAndDisplayAuthors(
   authorId,

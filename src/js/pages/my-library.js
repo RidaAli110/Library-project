@@ -1,8 +1,8 @@
 import {
   loadSavedBooks,
   removeBookFromLocalStorage,
-} from '../../utils/save-to-books.js';
-import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
+} from '../utils/save-to-books.js';
+import fetchAndDisplayAuthors from '../utils/displayAuthorInfo.js';
 import { Navbar } from '../components/navbar.js';
 
 /*---------------------------------------------Variables---------------------------------------------*/

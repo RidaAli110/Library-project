@@ -5,7 +5,7 @@ import {
   getTrendingBooks,
   searchBook,
 } from './api/open-library.js';
-import { displayBookDescription } from '../utils/book-description.js';
+import { displayBookDescription } from './utils/book-description.js';
 
 /*----------------------------Variables----------------------------*/
 const trendingList = document.querySelector('.trending-books-container');

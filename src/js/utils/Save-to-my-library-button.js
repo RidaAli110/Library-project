@@ -1,4 +1,4 @@
-import { loadSavedBooks, saveBookToLocalStorage } from "../../utils/save-to-books.js";
+import { loadSavedBooks, saveBookToLocalStorage } from "./save-to-books.js";
 
 /*-----------------------------------Event Listener For Save Button-----------------------------------*/
 export function handleSavedBook(saveBtn, book) {
