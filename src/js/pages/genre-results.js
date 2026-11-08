@@ -3,7 +3,7 @@ import {
   saveBookToLocalStorage,
 } from '../../utils/save-to-books.js';
 import { getGenreBooks } from '../api/open-library.js';
-import { Navbar } from './navbar.js';
+import { Navbar } from '../components/navbar.js';
 
 /*---------------------------------------------Variables---------------------------------------------*/
 const genreTitle = document.querySelector('.results-h1');

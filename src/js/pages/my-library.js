@@ -3,7 +3,7 @@ import {
   removeBookFromLocalStorage,
 } from '../../utils/save-to-books.js';
 import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
-import { Navbar } from './navbar.js';
+import { Navbar } from '../components/navbar.js';
 
 /*---------------------------------------------Variables---------------------------------------------*/
 const emptyState = document.querySelector('.empty-state-hidden');
@@ -46,7 +46,7 @@ function displaySavedBooks() {
     // -----Book cover-----
     const img = document.createElement('img');
     img.classList.add('saved-book-img');
-    img.src = `https://covers.openlibrary.org/b/id/${book.covers?.[0] ?? book.cover_id}-M.jpg` ; ;
+    img.src = `https://covers.openlibrary.org/b/id/${book.covers?.[0] ?? book.cover_id}-M.jpg`;
     img.alt = '';
     img.onerror = () => {
       img.onerror = null;
@@ -111,13 +111,13 @@ function removeBook(e) {
     const bookToRemove = savedBooks.find((savedBook) => {
       return savedBook.key === bookCard.dataset.key;
     });
-    
+
     if (bookToRemove) {
       // Remove book from DOM
       bookCard.remove();
       // Remove Book from local storage and store return updated array in variable
       const updatedSavedBooks = removeBookFromLocalStorage(bookToRemove);
-      
+
       // Update mySavedBooks to latest saved book array
       mySavedBooks = updatedSavedBooks;
 

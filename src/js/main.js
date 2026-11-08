@@ -46,12 +46,11 @@ function displayTrendingBooks() {
   }
 
   books.forEach((book) => {
-    
     const li = document.createElement('li');
     li.classList.add('trending-book');
 
     const bookLink = document.createElement('a');
-    bookLink.href = `/src/pages/book-details.html?key=${book.key}`
+    bookLink.href = `/src/pages/book-details.html?key=${book.key}`;
 
     const imgDiv = document.createElement('div');
     imgDiv.classList.add('img-box-shadow');
@@ -174,9 +173,9 @@ async function displayBookOfTheDay() {
   // Displaying Book of the day details
   bookOfDayImg.src = `https://covers.openlibrary.org/b/id/${bookOfDay.cover_i}-M.jpg`;
   bookOfDayImg.onerror = () => {
-      bookOfDayImg.onerror = null;
-      bookOfDayImg.src = '/assets/images/No-Image-Placeholder.svg.webp';
-    };
+    bookOfDayImg.onerror = null;
+    bookOfDayImg.src = '/assets/images/No-Image-Placeholder.svg.webp';
+  };
 
   bookOfDayTitle.textContent = bookOfDay.title;
   bookOfDayAuthor.textContent = bookOfDay.author_name;

@@ -1,4 +1,4 @@
-import { Navbar } from './navbar.js';
+import { Navbar } from '../components/navbar.js';
 import { getBookDetails, displayBookEditionInfo } from '../api/open-library.js';
 import { displayBookDescription } from '../../utils/book-description.js';
 import {
@@ -42,7 +42,9 @@ async function displayBookDetails() {
   if (!results) {
     return;
   }
-
+  
+  document.title = results.title;
+  
   // Add details to page
   if (results.covers?.length) {
     bookImg.src = `https://covers.openlibrary.org/b/id/${results.covers[0]}-L.jpg`;
@@ -72,7 +74,7 @@ async function displayBookDetails() {
   if (isBookSaved) {
     saveBtn.textContent = 'Remove Book';
   } else {
-    saveBtn.textContent = 'Save to My Library'
+    saveBtn.textContent = 'Save to My Library';
   }
 
   // Event listener for the save button

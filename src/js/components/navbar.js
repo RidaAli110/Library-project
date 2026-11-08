@@ -1,5 +1,4 @@
-// This is so the nav bar can appear on all pages
-
+// NavBar 
 export function Navbar(activePage) {
   const nav = document.createElement('nav');
   nav.classList.add('navbar');
