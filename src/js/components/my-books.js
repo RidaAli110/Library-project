@@ -1,4 +1,7 @@
-import { loadSavedBooks } from '../../utils/save-to-books.js';
+import {
+  loadSavedBooks,
+  removeBookFromLocalStorage,
+} from '../../utils/save-to-books.js';
 import fetchAndDisplayAuthors from '../../utils/displayAuthorInfo.js';
 import { Navbar } from './navbar.js';
 
@@ -7,11 +10,14 @@ const emptyState = document.querySelector('.empty-state-hidden');
 const savedBooksSection = document.querySelector('.saved-book-section');
 const savedBooksList = document.getElementById('saved-books-grid');
 
+/*-------------------------------------------Event Listeners-------------------------------------------*/
+savedBooksList.addEventListener('click', removeBook);
+
 /*-------------------------------------------Navbar render-------------------------------------------*/
 document.querySelector('#nav-bar').append(Navbar('my-books'));
 
 /*-------------------------------------------My Saved Books-------------------------------------------*/
-const mySavedBooks = loadSavedBooks();
+let mySavedBooks = loadSavedBooks();
 console.log(mySavedBooks);
 
 /*--------------------------------Check saved books to show empty state--------------------------------*/
@@ -30,10 +36,12 @@ checkBooks();
 
 /*-------------------------------------------Display Saved Books-------------------------------------------*/
 function displaySavedBooks() {
-  mySavedBooks.forEach( async (book) => {
+  mySavedBooks.forEach(async (book) => {
     // -----Book card-----
     const li = document.createElement('li');
     li.classList.add('saved-book-card');
+    // Add dataset to use later to identify which book was removed
+    li.dataset.key = book.key;
 
     // -----Book cover-----
     const img = document.createElement('img');
@@ -55,7 +63,7 @@ function displaySavedBooks() {
     // Author Name
     const authorName = document.createElement('p');
     authorName.classList.add('author-text');
-    const authors = await  fetchAndDisplayAuthors(book.authors, authorName);
+    const authors = await fetchAndDisplayAuthors(book.authors, authorName);
     detailsDiv.append(title, authorName);
 
     // -----Buttons div-----
@@ -86,3 +94,35 @@ function displaySavedBooks() {
 }
 
 displaySavedBooks();
+
+/*-------------------------------------------Remove Book-------------------------------------------*/
+function removeBook(e) {
+  // Identifies the remove button that was clicked
+  const removeBtn = e.target.closest('.remove-btn');
+
+  if (removeBtn) {
+    // Finds the parent book card
+    const bookCard = removeBtn.closest('.saved-book-card');
+
+    // This gets the saved books from local Storage
+    const savedBooks = loadSavedBooks();
+
+    // In the local storage array it finds the book that was removed, by using the dataset key
+    const bookToRemove = savedBooks.find((savedBook) => {
+      return savedBook.key === bookCard.dataset.key;
+    });
+    
+    if (bookToRemove) {
+      // Remove book from DOM
+      bookCard.remove();
+      // Remove Book from local storage and store return updated array in variable
+      const updatedSavedBooks = removeBookFromLocalStorage(bookToRemove);
+      
+      // Update mySavedBooks to latest saved book array
+      mySavedBooks = updatedSavedBooks;
+
+      // Checks the updated array to determine visibility of empty state
+      checkBooks();
+    }
+  }
+}

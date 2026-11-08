@@ -36,3 +36,15 @@ export function saveBookToLocalStorage(book) {
 
   return updatedBooksList;
 }
+
+/*----------------------------------Remove Book from local storage----------------------------------*/
+export function removeBookFromLocalStorage(removedBook) {
+  const savedBooks = loadSavedBooks();
+
+  const updatedSavedBooks = savedBooks.filter((book) => {
+    return book.key !== removedBook.key;
+  });
+
+  localStorage.setItem('saved-books', JSON.stringify(updatedSavedBooks));
+  return updatedSavedBooks;
+}
