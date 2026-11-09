@@ -77,7 +77,8 @@ function createGenreBookCard(book) {
   saveBtn.classList.add('save');
   saveBtn.textContent = 'Save Book';
   // On first load update save button text base on if it is saved already
-  updateSaveButtonText(saveBtn, book);
+  const msg = 'Remove'
+  updateSaveButtonText(saveBtn, book, msg);
   // Add event listener to the save button of each book card
   handleSavedBook(saveBtn, book);
 

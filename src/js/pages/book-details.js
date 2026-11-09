@@ -63,7 +63,8 @@ async function displayBookDetails() {
 
   // ---Save to my library button---
   // On first load update save button text base on if it is saved already
-  updateSaveButtonText(saveBtn, results);
+  const msg = 'Remove from Library'
+  updateSaveButtonText(saveBtn, results, msg);
   // Add event listener to the save button of each book card
   handleSavedBook(saveBtn, results);
 }

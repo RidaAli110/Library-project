@@ -11,7 +11,9 @@ export function handleSavedBook(saveBtn, book) {
 }
 
 /*--------------------------------------Update Save Button Text-------------------------------------- */
-export function updateSaveButtonText(saveBtn, book) {
+export function updateSaveButtonText(saveBtn, book, msg) {
+// 'msg' is the custom text i want for the remove buttons for book details page and genre results page
+
   // Get all the saved books
   const savedBooks = loadSavedBooks();
 
@@ -22,8 +24,8 @@ export function updateSaveButtonText(saveBtn, book) {
 
   // If true update button text.
   if (isBookAlreadySaved) {
-    saveBtn.textContent = 'Remove Book';
+    saveBtn.textContent = msg;
   } else {
-    saveBtn.textContent = 'Save Book';
+    saveBtn.textContent = 'Save to Library';
   }
 }
