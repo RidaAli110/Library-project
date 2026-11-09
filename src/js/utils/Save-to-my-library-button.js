@@ -1,12 +1,12 @@
 import { loadSavedBooks, saveBookToLocalStorage } from "./save-to-books.js";
 
 /*-----------------------------------Event Listener For Save Button-----------------------------------*/
-export function handleSavedBook(saveBtn, book) {
+export function handleSavedBook(saveBtn, book, msg) {
   saveBtn.addEventListener('click', () => {
     // When the save button is clicked save the book to local storage.
     saveBookToLocalStorage(book);
     // Update save button text every time it's clicked.
-    updateSaveButtonText(saveBtn, book);
+    updateSaveButtonText(saveBtn, book, msg);
   });
 }
 

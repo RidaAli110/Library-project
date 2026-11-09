@@ -66,7 +66,7 @@ async function displayBookDetails() {
   const msg = 'Remove from Library'
   updateSaveButtonText(saveBtn, results, msg);
   // Add event listener to the save button of each book card
-  handleSavedBook(saveBtn, results);
+  handleSavedBook(saveBtn, results, msg);
 }
 
 /*--------------------Topics List-------------------- */

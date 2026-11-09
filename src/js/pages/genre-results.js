@@ -80,7 +80,7 @@ function createGenreBookCard(book) {
   const msg = 'Remove'
   updateSaveButtonText(saveBtn, book, msg);
   // Add event listener to the save button of each book card
-  handleSavedBook(saveBtn, book);
+  handleSavedBook(saveBtn, book, msg);
 
   li.append(img, title, viewBtn, saveBtn);
   return li;
