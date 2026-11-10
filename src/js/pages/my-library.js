@@ -9,16 +9,19 @@ import { Navbar } from '../components/navbar.js';
 const emptyState = document.querySelector('.empty-state-hidden');
 const savedBooksSection = document.querySelector('.saved-book-section');
 const savedBooksList = document.getElementById('saved-books-grid');
+const input = document.getElementById('saved-book-search');
+const clearBtn = document.querySelector('.clear-search');
 
 /*-------------------------------------------Event Listeners-------------------------------------------*/
 savedBooksList.addEventListener('click', removeBook);
+input.addEventListener('input', searchSavedBooks);
+clearBtn.addEventListener('click', clearInput);
 
 /*-------------------------------------------Navbar render-------------------------------------------*/
 document.querySelector('#nav-bar').append(Navbar('my-library'));
 
 /*-------------------------------------------My Saved Books-------------------------------------------*/
-let mySavedBooks = loadSavedBooks();
-console.log(mySavedBooks);
+const mySavedBooks = loadSavedBooks();
 
 /*--------------------------------Check saved books to show empty state--------------------------------*/
 function checkBooks() {
@@ -35,8 +38,10 @@ function checkBooks() {
 checkBooks();
 
 /*-------------------------------------------Display Saved Books-------------------------------------------*/
-function displaySavedBooks() {
-  mySavedBooks.forEach(async (book) => {
+function displaySavedBooks(booksArray) {
+  savedBooksList.innerHTML = '';
+
+  booksArray.forEach(async (book) => {
     // -----Book card-----
     const li = document.createElement('li');
     li.classList.add('saved-book-card');
@@ -60,10 +65,10 @@ function displaySavedBooks() {
     const title = document.createElement('p');
     title.classList.add('title-text');
     title.textContent = book.title || 'No Title Available';
+
     // Author Name
     const authorName = document.createElement('p');
     authorName.classList.add('author-text');
-    const authors = await fetchAndDisplayAuthors(book.authors, authorName);
     detailsDiv.append(title, authorName);
 
     // -----Buttons div-----
@@ -72,33 +77,39 @@ function displaySavedBooks() {
     // View book button
     const viewBtn = document.createElement('a');
     viewBtn.classList.add('view-book-btn');
-    viewBtn.setAttribute(
-      'aria-label',
-      `View details for ${title.textContent} by ${authorName.textContent} `,
-    );
     viewBtn.href = `/src/pages/book-details.html?key=${book.key}`;
     viewBtn.textContent = 'View Book';
     // Remove book button
     const removeBtn = document.createElement('button');
-    removeBtn.classList.add('remove-btn');
-    removeBtn.setAttribute(
-      'aria-label',
-      `Remove ${title.textContent} by ${authorName.textContent} from my library`,
-    );
+    removeBtn.classList.add('remove');
     removeBtn.textContent = 'Remove';
     btnsDiv.append(viewBtn, removeBtn);
 
     li.append(img, detailsDiv, btnsDiv);
     savedBooksList.appendChild(li);
+
+    // Fetch authors after appending so the books can appear first in the DOM.
+    await fetchAndDisplayAuthors(book.authors, authorName);
+
+    // Set aria-labels after author information is fetched
+    viewBtn.setAttribute(
+      'aria-label',
+      `View details for ${title.textContent} by ${authorName.textContent} `,
+    );
+
+    removeBtn.setAttribute(
+      'aria-label',
+      `Remove ${title.textContent} by ${authorName.textContent} from my library`,
+    );
   });
 }
 
-displaySavedBooks();
+displaySavedBooks(mySavedBooks);
 
 /*------------------------------------------------Remove Book------------------------------------------------*/
 function removeBook(e) {
   // Identifies the remove button that was clicked
-  const removeBtn = e.target.closest('.remove-btn');
+  const removeBtn = e.target.closest('.remove');
 
   if (removeBtn) {
     // Finds the parent book card
@@ -126,3 +137,37 @@ function removeBook(e) {
     }
   }
 }
+
+/*------------------------------------------------Search Saved Books------------------------------------------------*/
+function searchSavedBooks(e) {
+  const searchTerm = e.target.value.trim().toLowerCase();
+
+  const savedBooks = loadSavedBooks();
+  const booksMatchingSearch = savedBooks.filter((book) => {
+    return book.title.toLowerCase().includes(searchTerm);
+  });
+  displaySavedBooks(booksMatchingSearch);
+
+  sessionStorage.setItem('filtered-books', searchTerm);
+}
+
+//  Session storage
+const savedSearchTerm = sessionStorage.getItem('filtered-books');
+
+input.value = savedSearchTerm || '';
+
+if (savedSearchTerm) {
+  const filteredBooks = mySavedBooks.filter((book) => {
+    return book.title.toLowerCase().includes(savedSearchTerm);
+  });
+  displaySavedBooks(filteredBooks);
+} else {
+  displaySavedBooks(mySavedBooks);
+}
+
+function clearInput() {
+  input.value = '';
+  sessionStorage.setItem('filtered-books', '');
+  displaySavedBooks(mySavedBooks);
+}
+

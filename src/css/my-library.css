@@ -40,16 +40,17 @@
 .saved-input-search-container {
   display: flex;
   justify-content: center;
+  position: relative;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
 }
 
 #saved-book-search {
   width: 100%;
-  max-width: 500px;
-  padding: 0.7rem 1.25rem;
+  padding: 0.7rem 3rem 0.7rem 1.25rem;
   border: 1px solid var(--borders-panels);
   border-radius: 0.5rem;
   background-color: var(--cards);
@@ -62,20 +63,18 @@
   opacity: 1;
 }
 
-.saved-search-btn {
-  display: none;
-  border: 1px solid var(--buttons);
-  background-color: var(--buttons);
-  color: var(--search-btn-text);
-  padding: 0.7rem 1.25rem;
-  border-radius: 0.5rem;
-  font: inherit;
-  font-weight: 600;
+.clear-search {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
 }
 
-.saved-search-btn:hover {
-  background-color: var(--secondary);
-  border-color: var(--secondary);
+.clear-search img {
+  width: 18px;
+  height: 18px;
 }
 
 /* Saved book cards */
@@ -152,7 +151,7 @@
   background-color: var(--hover-btn);
 }
 
-.remove-btn {
+.remove {
   width: 100%;
   padding: 0.6rem;
   border-radius: 0.5rem;
@@ -163,7 +162,7 @@
   font-weight: 600;
 }
 
-.remove-btn:hover {
+.remove:hover {
   background-color: var(--hover-btn);
 }
 
@@ -171,9 +170,6 @@
 @media (min-width: 600px) {
   #saved-books-grid {
     justify-content: start;
-  }
-  .saved-search-btn {
-    display: block;
   }
 }
 
