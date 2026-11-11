@@ -6,8 +6,12 @@ import {
   handleSavedBook,
   updateSaveButtonText,
 } from '../utils/Save-to-my-library-button.js';
+import { hideLoading, showLoading } from '../components/loading.js';
+import { showAPIerror } from '../components/api-error-state.js';
 
 /*-------------------------------------------Variables-------------------------------------------*/
+const loadingWrapper = document.querySelector('.loading-wrapper');
+const pageContainer = document.querySelector('.page-container');
 const bookImg = document.querySelector('.book-details-img');
 const bookTitle = document.querySelector('.book-title');
 const nameOfAuthor = document.querySelector('.author-text');
@@ -36,18 +40,35 @@ backBtn?.addEventListener('click', () => {
 async function displayBookDetails() {
   const params = new URLSearchParams(window.location.search);
   const bookKey = params.get('key');
-  const results = await getBookDetails(bookKey);
-  console.log(results);
 
-  if (!results) {
+  let bookDetails;
+
+  showLoading(loadingWrapper, message);
+  const message = 'Loading Book...';
+  try {
+    bookDetails = await getBookDetails(bookKey);
+
+    if (bookDetails === undefined) {
+      throw new Error('Failed to fetch book');
+    }
+
+    pageContainer.style.display = 'block';
+  } catch (error) {
+    showAPIerror(loadingWrapper, displayBookDetails);
+    return;
+  } finally {
+    hideLoading(loadingWrapper);
+  }
+
+  if (!bookDetails) {
     return;
   }
 
-  document.title = results.title;
+  document.title = bookDetails.title;
 
   // Add details to page
-  if (results.covers?.length) {
-    bookImg.src = `https://covers.openlibrary.org/b/id/${results.covers[0]}-L.jpg`;
+  if (bookDetails.covers?.length) {
+    bookImg.src = `https://covers.openlibrary.org/b/id/${bookDetails.covers[0]}-L.jpg`;
   } else {
     bookImg.src = '/assets/images/No-Image-Placeholder.svg.webp';
   }
@@ -55,18 +76,18 @@ async function displayBookDetails() {
     bookImg.src = '/assets/images/No-Image-Placeholder.svg.webp';
   };
 
-  bookTitle.textContent = results.title || 'No Title Available';
-  displayBookDescription(results.description, desc);
-  fetchAndDisplayAuthors(results.authors, nameOfAuthor);
-  displayTopics(results.subjects);
-  displayBookEditionInfo(results.key, pages, publishDate, publisher);
+  bookTitle.textContent = bookDetails.title || 'No Title Available';
+  displayBookDescription(bookDetails.description, desc);
+  fetchAndDisplayAuthors(bookDetails.authors, nameOfAuthor);
+  displayTopics(bookDetails.subjects);
+  displayBookEditionInfo(bookDetails.key, pages, publishDate, publisher);
 
   // ---Save to my library button---
   // On first load update save button text base on if it is saved already
-  const msg = 'Remove from Library'
-  updateSaveButtonText(saveBtn, results, msg);
+  const msg = 'Remove from Library';
+  updateSaveButtonText(saveBtn, bookDetails, msg);
   // Add event listener to the save button of each book card
-  handleSavedBook(saveBtn, results, msg);
+  handleSavedBook(saveBtn, bookDetails, msg);
 }
 
 /*--------------------Topics List-------------------- */

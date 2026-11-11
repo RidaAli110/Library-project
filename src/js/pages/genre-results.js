@@ -1,6 +1,11 @@
-import { handleSavedBook, updateSaveButtonText } from '../utils/Save-to-my-library-button.js';
+import {
+  handleSavedBook,
+  updateSaveButtonText,
+} from '../utils/Save-to-my-library-button.js';
 import { getGenreBooks } from '../api/open-library.js';
 import { Navbar } from '../components/navbar.js';
+import { showLoading, hideLoading } from '../components/loading.js';
+import { showAPIerror } from '../components/api-error-state.js';
 
 /*---------------------------------------------Variables---------------------------------------------*/
 const genreTitle = document.querySelector('.results-h1');
@@ -23,19 +28,33 @@ async function displayGenreBooks() {
     return;
   }
 
-  // Genre Books Array
-  const genreBooks = await getGenreBooks(selectedGenre);
+  let genreBooks;
 
-  if (!genreBooks || genreBooks.length < 1) {
+  const message = `Loading ${formattedGenre} Books`;
+  showLoading(resultsUl, message);
+  try {
+    genreBooks = await getGenreBooks(selectedGenre);
+
+    if (genreBooks === undefined) {
+      throw new Error('Failed to fetch genre books');
+    }
+  } catch (error) {
+    showAPIerror(resultsUl, displayGenreBooks);
+    return;
+  } finally {
+    hideLoading(resultsUl);
+  }
+
+  if (genreBooks.length === 0) {
     genreTitle.textContent = 'No results found. Try again.';
     return;
   }
 
   document.title = formattedGenre;
-  
-  genreBooks.forEach((book) => {
-    genreTitle.textContent = `Results for ${formattedGenre}`;
 
+  genreTitle.textContent = `Results for ${formattedGenre}`;
+
+  genreBooks.forEach((book) => {
     const li = createGenreBookCard(book);
 
     resultsUl.appendChild(li);
@@ -77,7 +96,7 @@ function createGenreBookCard(book) {
   saveBtn.classList.add('save');
   saveBtn.textContent = 'Save Book';
   // On first load update save button text base on if it is saved already
-  const msg = 'Remove'
+  const msg = 'Remove';
   updateSaveButtonText(saveBtn, book, msg);
   // Add event listener to the save button of each book card
   handleSavedBook(saveBtn, book, msg);
@@ -85,5 +104,3 @@ function createGenreBookCard(book) {
   li.append(img, title, viewBtn, saveBtn);
   return li;
 }
-
-

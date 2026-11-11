@@ -18,45 +18,48 @@
       <!-- Navbar rendered by JavaScript -->
     </header>
     <main>
-      <section id="book-details-section">
-        <img class="book-details-img" src="" alt="" />
-        <div class="details-wrapper">
-          <div class="main-details">
-            <h1 class="book-title"></h1>
-            <p class="author-text"></p>
+      <div class="loading-wrapper"></div>
+      <div class="page-container">
+        <section id="book-details-section">
+          <img class="book-details-img" src="" alt="" />
+          <div class="details-wrapper">
+            <div class="main-details">
+              <h1 class="book-title"></h1>
+              <p class="author-text"></p>
+            </div>
+            <div class="desc-save-btn">
+              <p class="desc-text"></p>
+              <button type="button" class="save-btn">Save to My Library</button>
+            </div>
           </div>
-          <div class="desc-save-btn">
-            <p class="desc-text"></p>
-            <button type="button" class="save-btn">Save to My Library</button>
+        </section>
+        <!-- Book Info -->
+        <section class="additional-details">
+          <h2 class="book-info-h2">Book Info</h2>
+          <div class="topics info-wrapper">
+            <p class="info-name">Topics</p>
+            <ul class="topic-list">
+              <!-- Topics rendered by JavaScript -->
+            </ul>
           </div>
+          <dl>
+            <div class="info-wrapper">
+              <dt class="info-name">Number of pages</dt>
+              <dd class="pages dd-text"></dd>
+            </div>
+            <div class="info-wrapper">
+              <dt class="info-name">First Published</dt>
+              <dd class="publish-date dd-text"></dd>
+            </div>
+            <div class="info-wrapper">
+              <dt class="info-name">Publisher</dt>
+              <dd class="publisher dd-text"></dd>
+            </div>
+          </dl>
+        </section>
+        <div class="back-btn-container">
+          <button type="button" class="back-btn">Go back</button>
         </div>
-      </section>
-      <!-- Book Info -->
-      <section class="additional-details">
-        <h2 class="book-info-h2">Book Info</h2>
-        <div class="topics info-wrapper">
-          <p class="info-name">Topics</p>
-          <ul class="topic-list">
-            <!-- Topics rendered by JavaScript -->
-          </ul>
-        </div>
-        <dl>
-          <div class="info-wrapper">
-            <dt class="info-name">Number of pages</dt>
-            <dd class="pages dd-text"></dd>
-          </div>
-          <div class="info-wrapper">
-            <dt class="info-name">First Published</dt>
-            <dd class="publish-date dd-text"></dd>
-          </div>
-          <div class="info-wrapper">
-            <dt class="info-name">Publisher</dt>
-            <dd class="publisher dd-text"></dd>
-          </div>
-        </dl>
-      </section>
-      <div class="back-btn-container">
-        <button type="button" class="back-btn">Go back</button>
       </div>
     </main>
   </body>

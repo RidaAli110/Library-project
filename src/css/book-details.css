@@ -5,6 +5,10 @@ main {
   padding: 0 1.25rem 3rem;
 }
 
+.page-container {
+  display: none;
+}
+
 #book-details-section {
   max-width: 1000px;
   margin-inline: auto;
