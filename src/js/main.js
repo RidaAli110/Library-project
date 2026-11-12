@@ -6,13 +6,18 @@ import {
   searchBook,
 } from './api/open-library.js';
 import { displayBookDescription } from './utils/book-description.js';
+import { displaySkeleton, hideSkeleton } from './components/skeleton-ui.js';
+import { showAPIerror } from './components/api-error-state.js';
 
 /*----------------------------Variables----------------------------*/
+const contentWrapper = document.querySelector('.content-wrapper');
+const pageContainer = document.querySelector('.page-container');
 const trendingList = document.querySelector('.trending-books-container');
 const searchInput = document.getElementById('book-search');
 const resultsContainer = document.querySelector('#search-results');
 const searchWrapper = document.querySelector('.search-input-wrapper');
 const searchForm = document.querySelector('.input-container');
+const bookOfDayContainer = document.querySelector('.book-o-t-d');
 const bookOfDayTitle = document.querySelector('.b-o-t-d-title');
 const bookOfDayAuthor = document.querySelector('.b-o-t-d-author');
 const bookOfDayDesc = document.querySelector('.b-o-t-d-desc');
@@ -33,8 +38,37 @@ genreLinks.forEach((link) => {
 document.addEventListener('click', closeInput);
 
 /*----------------------------Fetch Functions----------------------------*/
-const books = await getTrendingBooks();
-const bookOfDay = await getBookOfTheDay();
+let books;
+let bookOfDay;
+
+async function loadDashboard() {
+  pageContainer.style.display = '';
+  const skeletonData = displaySkeleton();
+
+  try {
+    books = await getTrendingBooks();
+
+    if (books === undefined) {
+      throw new Error('Failed to fetch trending books');
+    }
+
+    bookOfDay = await getBookOfTheDay();
+
+    if (bookOfDay === undefined) {
+      throw new Error('Failed to fetch Book of the Day');
+    }
+
+  } catch (error) {
+    console.error(error);
+    pageContainer.style.display = 'none';
+    showAPIerror(contentWrapper, loadDashboard);
+    
+  } finally {
+    hideSkeleton(skeletonData);
+  }
+}
+
+loadDashboard();
 
 // Stores the controller so the last search request can be cancelled
 let controller;

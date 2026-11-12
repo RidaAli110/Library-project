@@ -22,7 +22,8 @@
     <header id="nav-bar">
       <!-- Navbar which is rendered by JavaScript -->
     </header>
-    <main>
+    <main class="content-wrapper">
+      <div class="page-container">
       <h1 class="dashboard-h1">Welcome to your library.</h1>
       <!-- Search -->
       <form class="input-container" role="search">
@@ -49,125 +50,126 @@
       </section>
       <!-- Dashboard -->
       <section id="grid">
-        <!-- Book of the Day and Explore by Genre -->
-        <div class="b-o-t-d-genre-container">
-          <!-- Book of the Day -->
-          <section class="book-o-t-d">
-            <div class="title-viewBtn">
-              <h2 class="book-o-t-d-title">Book of the Day</h2>
+          <!-- Book of the Day and Explore by Genre -->
+          <div class="b-o-t-d-genre-container">
+            <!-- Book of the Day -->
+            <section class="book-o-t-d">
+              <div class="title-viewBtn">
+                <h2 class="book-o-t-d-title">Book of the Day</h2>
 
-              <a
-                href="/src/pages/book-details.html"
-                class="b-o-t-d-view-btn"
-                type="button"
-                >View book</a
-              >
-            </div>
-            <div class="book-o-t-d-container">
-              <img class="book-o-t-d-img" src="" alt="" />
-              <div class="book-o-t-d-details">
-                <dl class="b-o-t-d-dl-container">
-                  <div class="book-o-t-d-book-details">
-                    <dt class="dt-text">Title:</dt>
-                    <dd class="dd-text b-o-t-d-title"></dd>
-                  </div>
-                  <div class="book-o-t-d-book-details">
-                    <dt class="dt-text">Author:</dt>
-                    <dd class="dd-text b-o-t-d-author"></dd>
-                  </div>
-                  <div class="book-o-t-d-book-details">
-                    <dt class="dt-text">About this book</dt>
-                    <dd class="dd-text b-o-t-d-desc"></dd>
-                  </div>
-                </dl>
+                <a
+                  href="/src/pages/book-details.html"
+                  class="b-o-t-d-view-btn"
+                  type="button"
+                  >View book</a
+                >
               </div>
-            </div>
-          </section>
-          <!-- Explore by Genre -->
-          <section class="genre-tag-container">
-            <h2 class="genre-tag-title">Explore by Genre</h2>
-            <p class="genre-tag-p">Discover something new...</p>
-            <ul class="genre-list">
-              <li>
-                <a
-                  href="/src/pages/genre-results.html"
-                  class="genre-list-tags"
-                  data-genre="mystery"
-                >
-                  Mystery
-                </a>
-              </li>
+              <div class="book-o-t-d-container">
+                <img class="book-o-t-d-img" src="" alt="" />
+                <div class="book-o-t-d-details">
+                  <dl class="b-o-t-d-dl-container">
+                    <div class="book-o-t-d-book-details">
+                      <dt class="dt-text">Title:</dt>
+                      <dd class="dd-text b-o-t-d-title"></dd>
+                    </div>
+                    <div class="book-o-t-d-book-details">
+                      <dt class="dt-text">Author:</dt>
+                      <dd class="dd-text b-o-t-d-author"></dd>
+                    </div>
+                    <div class="book-o-t-d-book-details">
+                      <dt class="dt-text">About this book</dt>
+                      <dd class="dd-text b-o-t-d-desc"></dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+            </section>
+            <!-- Explore by Genre -->
+            <section class="genre-tag-container">
+              <h2 class="genre-tag-title">Explore by Genre</h2>
+              <p class="genre-tag-p">Discover something new...</p>
+              <ul class="genre-list">
+                <li>
+                  <a
+                    href="/src/pages/genre-results.html"
+                    class="genre-list-tags"
+                    data-genre="mystery"
+                  >
+                    Mystery
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  href="/src/pages/genre-results.html"
-                  class="genre-list-tags"
-                  data-genre="horror"
-                >
-                  Horror
-                </a>
-              </li>
+                <li>
+                  <a
+                    href="/src/pages/genre-results.html"
+                    class="genre-list-tags"
+                    data-genre="horror"
+                  >
+                    Horror
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  href="/src/pages/genre-results.html"
-                  class="genre-list-tags"
-                  data-genre="history"
-                >
-                  History
-                </a>
-              </li>
+                <li>
+                  <a
+                    href="/src/pages/genre-results.html"
+                    class="genre-list-tags"
+                    data-genre="history"
+                  >
+                    History
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  href="/src/pages/genre-results.html"
-                  class="genre-list-tags"
-                  data-genre="adventure"
-                >
-                  Adventure
-                </a>
-              </li>
+                <li>
+                  <a
+                    href="/src/pages/genre-results.html"
+                    class="genre-list-tags"
+                    data-genre="adventure"
+                  >
+                    Adventure
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  href="/src/pages/genre-results.html"
-                  class="genre-list-tags"
-                  data-genre="philosophy"
-                >
-                  Philosophy
-                </a>
-              </li>
+                <li>
+                  <a
+                    href="/src/pages/genre-results.html"
+                    class="genre-list-tags"
+                    data-genre="philosophy"
+                  >
+                    Philosophy
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  href="/src/pages/genre-results.html"
-                  class="genre-list-tags"
-                  data-genre="biography"
-                >
-                  Biography
-                </a>
-              </li>
+                <li>
+                  <a
+                    href="/src/pages/genre-results.html"
+                    class="genre-list-tags"
+                    data-genre="biography"
+                  >
+                    Biography
+                  </a>
+                </li>
 
-              <li>
-                <a
-                  href="/src/pages/genre-results.html"
-                  class="genre-list-tags"
-                  data-genre="science_fiction"
-                >
-                  Science Fiction
-                </a>
-              </li>
+                <li>
+                  <a
+                    href="/src/pages/genre-results.html"
+                    class="genre-list-tags"
+                    data-genre="science_fiction"
+                  >
+                    Science Fiction
+                  </a>
+                </li>
+              </ul>
+            </section>
+          </div>
+          <!-- Trending Books -->
+          <section class="trending-container">
+            <h2 class="trending-title">Trending Books This Week</h2>
+            <ul class="trending-books-container">
+              <!-- Cards rendered by JavaScript-->
             </ul>
           </section>
-        </div>
-        <!-- Trending Books -->
-        <section class="trending-container">
-          <h2 class="trending-title">Trending Books This Week</h2>
-          <ul class="trending-books-container">
-            <!-- Cards are being rendered by JavaScript in './src/js/main.js' -->
-          </ul>
         </section>
-      </section>
+      </div>
     </main>
   </body>
 </html>

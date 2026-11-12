@@ -4,6 +4,7 @@
   color: var(--text-and-headings);
 }
 
+
 /* Input */
 .search-input-wrapper {
   position: relative;
@@ -110,8 +111,8 @@
   color: var(--text-and-headings);
 }
 
-
 /* Main dashboard grid */
+
 #grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -119,6 +120,8 @@
   margin-top: 2rem;
   align-items: start;
 }
+
+
 
 /* Book of the Day */
 .book-o-t-d {
@@ -148,7 +151,7 @@
 .book-o-t-d-img {
   width: 150px;
   max-width: 45%;
-  height: auto;
+  height: 220px;
   object-fit: contain;
   align-self: flex-start;
   border-radius: 0.5rem;
@@ -279,6 +282,7 @@
 /* Explore by Genre */
 .genre-tag-container {
   display: flex;
+  padding: 1.5rem;
   flex-direction: column;
   justify-content: center;
   min-width: 0;

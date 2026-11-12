@@ -220,6 +220,27 @@ height: 3rem;
   color: var(--text-and-headings);
 }
 
+/* Loading Skeleton */
+.auto-skeleton {
+  background-color: var(--cards);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.skeleton-book-cover {
+  width: 130px;
+  height: 170px;
+  border-radius: 0.2rem;
+}
+
+.skeleton-book-title {
+  width: 80%;
+  height: 16px;
+  margin-top: 0.75rem;
+}
+
+
+
 /* Media queries */
 @media (min-width: 600px) {
   .link-text {
