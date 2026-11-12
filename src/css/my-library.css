@@ -63,19 +63,6 @@
   opacity: 1;
 }
 
-.clear-search {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-}
-
-.clear-search img {
-  width: 18px;
-  height: 18px;
-}
 
 /* Saved book cards */
 #saved-books-grid {

@@ -15,13 +15,14 @@ const clearBtn = document.querySelector('.clear-search');
 /*-------------------------------------------Event Listeners-------------------------------------------*/
 savedBooksList.addEventListener('click', removeBook);
 input.addEventListener('input', searchSavedBooks);
+input.addEventListener('input', toggleClearBtn);
 clearBtn.addEventListener('click', clearInput);
 
 /*-------------------------------------------Navbar render-------------------------------------------*/
 document.querySelector('#nav-bar').append(Navbar('my-library'));
 
 /*-------------------------------------------My Saved Books-------------------------------------------*/
-const mySavedBooks = loadSavedBooks();
+let mySavedBooks = loadSavedBooks();
 
 /*--------------------------------Check saved books to show empty state--------------------------------*/
 function checkBooks() {
@@ -155,6 +156,7 @@ function searchSavedBooks(e) {
 const savedSearchTerm = sessionStorage.getItem('filtered-books');
 
 input.value = savedSearchTerm || '';
+toggleClearBtn();
 
 if (savedSearchTerm) {
   const filteredBooks = mySavedBooks.filter((book) => {
@@ -165,9 +167,12 @@ if (savedSearchTerm) {
   displaySavedBooks(mySavedBooks);
 }
 
+function toggleClearBtn() {
+  clearBtn.classList.toggle('visible', input.value.length > 0);
+}
 function clearInput() {
   input.value = '';
+  toggleClearBtn();
   sessionStorage.setItem('filtered-books', '');
   displaySavedBooks(mySavedBooks);
 }
-

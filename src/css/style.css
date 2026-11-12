@@ -64,6 +64,26 @@ body {
   color: var(--text-and-headings);
 }
 
+/* Clear input X icon */
+.clear-search {
+  display: none;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+}
+
+.clear-search img {
+  width: 18px;
+  height: 18px;
+}
+
+.clear-search.visible {
+  display: block;
+}
+
 /* Nav Bar */
 .navbar {
   display: flex;
@@ -189,8 +209,8 @@ body {
 
 /* Error state */
 .error-img {
-width: 3rem;
-height: 3rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 .error-h2 {
@@ -238,8 +258,6 @@ height: 3rem;
   height: 16px;
   margin-top: 0.75rem;
 }
-
-
 
 /* Media queries */
 @media (min-width: 600px) {

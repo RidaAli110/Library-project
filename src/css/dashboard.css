@@ -4,7 +4,6 @@
   color: var(--text-and-headings);
 }
 
-
 /* Input */
 .search-input-wrapper {
   position: relative;
@@ -41,6 +40,7 @@
   color: var(--secondary-text);
   opacity: 1;
 }
+
 
 .search-btn {
   display: none;
@@ -120,8 +120,6 @@
   margin-top: 2rem;
   align-items: start;
 }
-
-
 
 /* Book of the Day */
 .book-o-t-d {
@@ -282,7 +280,7 @@
 /* Explore by Genre */
 .genre-tag-container {
   display: flex;
-  padding: 1.5rem;
+  padding-left: 0.3rem;
   flex-direction: column;
   justify-content: center;
   min-width: 0;

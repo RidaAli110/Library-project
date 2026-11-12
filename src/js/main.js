@@ -16,8 +16,9 @@ const trendingList = document.querySelector('.trending-books-container');
 const searchInput = document.getElementById('book-search');
 const resultsContainer = document.querySelector('#search-results');
 const searchWrapper = document.querySelector('.search-input-wrapper');
+const input = document.getElementById('book-search');
+const clearBtn = document.querySelector('.clear-search');
 const searchForm = document.querySelector('.input-container');
-const bookOfDayContainer = document.querySelector('.book-o-t-d');
 const bookOfDayTitle = document.querySelector('.b-o-t-d-title');
 const bookOfDayAuthor = document.querySelector('.b-o-t-d-author');
 const bookOfDayDesc = document.querySelector('.b-o-t-d-desc');
@@ -31,6 +32,8 @@ navbarContainer.append(Navbar('home'));
 
 /*----------------------------Event Listeners----------------------------*/
 searchInput.addEventListener('input', searchResults);
+input.addEventListener('input', toggleClearBtn);
+clearBtn.addEventListener('click', clearInput);
 searchForm.addEventListener('submit', searchSubmit);
 genreLinks.forEach((link) => {
   link.addEventListener('click', handleGenreClick);
@@ -58,11 +61,12 @@ async function loadDashboard() {
       throw new Error('Failed to fetch Book of the Day');
     }
 
+    displayTrendingBooks();
+    displayBookOfTheDay();
   } catch (error) {
     console.error(error);
     pageContainer.style.display = 'none';
     showAPIerror(contentWrapper, loadDashboard);
-    
   } finally {
     hideSkeleton(skeletonData);
   }
@@ -197,6 +201,16 @@ async function searchSubmit(e) {
   const firstBook = results[0];
   window.location.href = `/src/pages/book-details.html?key=${firstBook.key}`;
 }
+
+function toggleClearBtn() {
+  clearBtn.classList.toggle('visible', input.value.length > 0);
+}
+function clearInput() {
+  input.value = '';
+  toggleClearBtn();
+}
+// Update the clear button visibility when the page loads or is restored from browser history.
+window.addEventListener('pageshow', toggleClearBtn);
 
 /* -------------------------------Display Book Of The Day------------------------------- */
 async function displayBookOfTheDay() {
