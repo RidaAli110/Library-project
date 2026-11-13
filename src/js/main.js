@@ -127,7 +127,6 @@ function searchResults(e) {
     return;
   }
   resultsContainer.innerHTML = '';
-  resultsContainer.style.display = 'block';
 
   performSearch(userInput);
 }
@@ -158,6 +157,11 @@ async function performSearch(inputValue) {
   if (bookResults.length < 1) {
     resultsContainer.innerHTML = `<p class='no-result'>No books found. Try again.</p>`;
     return;
+  }
+
+  
+  if (bookResults.length > 0) {
+    resultsContainer.style.display = 'block';
   }
 
   bookResults.forEach((result) => {
