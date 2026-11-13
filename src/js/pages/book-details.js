@@ -43,8 +43,8 @@ async function displayBookDetails() {
 
   let bookDetails;
 
-  showLoading(loadingWrapper, message);
   const message = 'Loading Book...';
+  showLoading(loadingWrapper, message);
   try {
     bookDetails = await getBookDetails(bookKey);
 

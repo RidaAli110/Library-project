@@ -41,7 +41,6 @@
   opacity: 1;
 }
 
-
 .search-btn {
   display: none;
   border: 1px solid var(--buttons);
@@ -112,7 +111,6 @@
 }
 
 /* Main dashboard grid */
-
 #grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -153,7 +151,7 @@
   object-fit: contain;
   align-self: flex-start;
   border-radius: 0.5rem;
-  box-shadow: 0 8px 20px rgb(53 49 46 / 15%);
+  filter: drop-shadow(0 6px 8px rgb(53 49 46 / 15%));
 }
 
 .book-o-t-d-details {
