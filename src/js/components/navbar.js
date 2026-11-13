@@ -15,7 +15,7 @@ export function Navbar(activePage) {
 
   const logoText = document.createElement('span');
   logoText.classList.add('my-lib');
-  logoText.textContent = 'no name';
+  logoText.textContent = 'Book Discovery';
 
   logo.append(logoImg, logoText);
 
