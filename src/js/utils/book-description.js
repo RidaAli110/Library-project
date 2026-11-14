@@ -1,9 +1,12 @@
 export function displayBookDescription(description, descVariable) {
-  // Check if the description is a string
+  // Store description in an empty string
   let descriptionText = '';
+
+  // Check if API returns description as a string
   if (typeof description === 'string') {
     descriptionText = description;
   }
+
   // Check if the description is an object
   else if (typeof description === 'object' && description !== null) {
     descriptionText = description.value;
@@ -15,14 +18,16 @@ export function displayBookDescription(description, descVariable) {
     return;
   }
 
-  // Shorten descriptions to 250 letters, ending at a full stop
+  // Shorten descriptions to 300 letters, ending at a full stop
   if (descriptionText.length > 300) {
     const shortenedText = descriptionText.slice(0, 300);
+
     const lastFullStop = shortenedText.lastIndexOf('.');
     descVariable.textContent =
       lastFullStop !== -1
         ? shortenedText.slice(0, lastFullStop + 1)
         : `${shortenedText}...`;
+        
   } else {
     descVariable.textContent = descriptionText;
   }

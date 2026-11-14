@@ -14,7 +14,7 @@ export function Navbar(activePage) {
   logoImg.alt = '';
 
   const logoText = document.createElement('span');
-  logoText.classList.add('my-lib');
+  logoText.classList.add('logo-title');
   logoText.textContent = 'Book Discovery';
 
   logo.append(logoImg, logoText);

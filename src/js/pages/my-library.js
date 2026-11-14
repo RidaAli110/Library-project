@@ -5,26 +5,26 @@ import {
 import fetchAndDisplayAuthors from '../utils/displayAuthorInfo.js';
 import { Navbar } from '../components/navbar.js';
 
-/*---------------------------------------------Variables---------------------------------------------*/
+/*---------------------------------------Variables---------------------------------------*/
 const emptyState = document.querySelector('.empty-state-hidden');
 const savedBooksSection = document.querySelector('.saved-book-section');
 const savedBooksList = document.getElementById('saved-books-grid');
 const input = document.getElementById('saved-book-search');
 const clearBtn = document.querySelector('.clear-search');
 
-/*-------------------------------------------Event Listeners-------------------------------------------*/
+/*------------------------------------Event Listeners------------------------------------*/
 savedBooksList.addEventListener('click', removeBook);
 input.addEventListener('input', searchSavedBooks);
 input.addEventListener('input', toggleClearBtn);
 clearBtn.addEventListener('click', clearInput);
 
-/*-------------------------------------------Navbar render-------------------------------------------*/
+/*--------------------------------------Navbar render--------------------------------------*/
 document.querySelector('#nav-bar').append(Navbar('my-library'));
 
-/*-------------------------------------------My Saved Books-------------------------------------------*/
+/*-------------------------------Load Books From localStorage-------------------------------*/
 let mySavedBooks = loadSavedBooks();
 
-/*--------------------------------Check saved books to show empty state--------------------------------*/
+/*----------------------------------------Empty State Check----------------------------------------*/
 function checkBooks() {
   if (mySavedBooks.length === 0) {
     emptyState.hidden = false;
@@ -38,18 +38,16 @@ function checkBooks() {
 
 checkBooks();
 
-/*-------------------------------------------Display Saved Books-------------------------------------------*/
+/*--------------------------------------Display Saved Books--------------------------------------*/
 function displaySavedBooks(booksArray) {
   savedBooksList.innerHTML = '';
 
   booksArray.forEach(async (book) => {
-    // -----Book card-----
     const li = document.createElement('li');
     li.classList.add('saved-book-card');
-    // Add dataset to use later to identify which book was removed
+    // Add dataset to identify which book was removed.
     li.dataset.key = book.key;
 
-    // -----Book cover-----
     const img = document.createElement('img');
     img.classList.add('saved-book-img');
     img.src = `https://covers.openlibrary.org/b/id/${book.covers?.[0] ?? book.cover_id}-M.jpg`;
@@ -59,37 +57,39 @@ function displaySavedBooks(booksArray) {
       img.src = '/assets/images/No-Image-Placeholder.svg.webp';
     };
 
-    // -----Book details div-----
     const detailsDiv = document.createElement('div');
     detailsDiv.classList.add('saved-details');
-    // Title
+
     const title = document.createElement('p');
     title.classList.add('title-text');
     title.textContent = book.title || 'No Title Available';
 
-    // Author Name
     const authorName = document.createElement('p');
     authorName.classList.add('author-text');
+  
     detailsDiv.append(title, authorName);
+
 
     // -----Buttons div-----
     const btnsDiv = document.createElement('div');
     btnsDiv.classList.add('saved-books-btns');
-    // View book button
+    
     const viewBtn = document.createElement('a');
     viewBtn.classList.add('view-book-btn');
     viewBtn.href = `/src/pages/book-details.html?key=${book.key}`;
     viewBtn.textContent = 'View Book';
-    // Remove book button
+    
     const removeBtn = document.createElement('button');
     removeBtn.classList.add('remove');
     removeBtn.textContent = 'Remove';
+
     btnsDiv.append(viewBtn, removeBtn);
+
 
     li.append(img, detailsDiv, btnsDiv);
     savedBooksList.appendChild(li);
 
-    // Fetch authors after appending so the books can appear first in the DOM.
+    // Fetch authors after appending so the books can appear first on the page
     await fetchAndDisplayAuthors(book.authors, authorName);
 
     // Set aria-labels after author information is fetched
@@ -107,56 +107,52 @@ function displaySavedBooks(booksArray) {
 
 displaySavedBooks(mySavedBooks);
 
-/*------------------------------------------------Remove Book------------------------------------------------*/
+/*-------------------------------------------Remove Book-------------------------------------------*/
 function removeBook(e) {
-  // Identifies the remove button that was clicked
   const removeBtn = e.target.closest('.remove');
 
   if (removeBtn) {
-    // Finds the parent book card
     const bookCard = removeBtn.closest('.saved-book-card');
 
-    // This gets the saved books from local Storage
     const savedBooks = loadSavedBooks();
 
-    // In the local storage array it finds the book that was removed, by using the dataset key
-    const bookToRemove = savedBooks.find((savedBook) => {
+    //  finds the book that was removed, by using the dataset key
+    const bookRemoved = savedBooks.find((savedBook) => {
       return savedBook.key === bookCard.dataset.key;
     });
 
-    if (bookToRemove) {
-      // Remove book from DOM
+    if (bookRemoved) {
       bookCard.remove();
-      // Remove Book from local storage and store return updated array in variable
-      const updatedSavedBooks = removeBookFromLocalStorage(bookToRemove);
+      const updatedSavedBooks = removeBookFromLocalStorage(bookRemoved);
 
       // Update mySavedBooks to latest saved book array
       mySavedBooks = updatedSavedBooks;
 
-      // Checks the updated array to determine visibility of empty state
       checkBooks();
     }
   }
 }
 
-/*------------------------------------------------Search Saved Books------------------------------------------------*/
+/*-----------------------------------------Search Saved Books-----------------------------------------*/
 function searchSavedBooks(e) {
   const searchTerm = e.target.value.trim().toLowerCase();
 
   const savedBooks = loadSavedBooks();
+
   const booksMatchingSearch = savedBooks.filter((book) => {
     return book.title.toLowerCase().includes(searchTerm);
   });
   displaySavedBooks(booksMatchingSearch);
 
+  // Save the search term to session storage
   sessionStorage.setItem('filtered-books', searchTerm);
 }
 
-//  Session storage
 const savedSearchTerm = sessionStorage.getItem('filtered-books');
 
 input.value = savedSearchTerm || '';
 toggleClearBtn();
+
 
 if (savedSearchTerm) {
   const filteredBooks = mySavedBooks.filter((book) => {
@@ -170,6 +166,7 @@ if (savedSearchTerm) {
 function toggleClearBtn() {
   clearBtn.classList.toggle('visible', input.value.length > 0);
 }
+
 function clearInput() {
   input.value = '';
   toggleClearBtn();

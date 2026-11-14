@@ -1,8 +1,9 @@
 'use strict';
-const API_URL = 'https://openlibrary.org';
-import { getPublishYear, formatPublishDate } from "../utils/date-utils.js";
+import { getPublishYear, formatPublishDate } from '../utils/date-utils.js';
 
-/*---------------------------------------------- Get Trending Books----------------------------------------------*/
+const API_URL = 'https://openlibrary.org';
+
+/*------------------------------------Get Trending Books-----------------------------------*/
 export async function getTrendingBooks() {
   try {
     const res = await fetch(`${API_URL}/trending/weekly.json?limit=16`);
@@ -18,7 +19,7 @@ export async function getTrendingBooks() {
   }
 }
 
-/*----------------------------------------------Search for books----------------------------------------------*/
+/*-------------------------------------Search for books-------------------------------------*/
 export async function searchBook(book, signal) {
   try {
     const res = await fetch(
@@ -37,7 +38,7 @@ export async function searchBook(book, signal) {
   }
 }
 
-/*-------------------------------------------Fetch Author details-------------------------------------------*/
+/*-----------------------------------Fetch Author details-----------------------------------*/
 export async function fetchAuthor(authorKey) {
   try {
     const res = await fetch(`${API_URL}${authorKey}.json`);
@@ -51,7 +52,7 @@ export async function fetchAuthor(authorKey) {
   }
 }
 
-/*----------------------------------------------Get Book Details----------------------------------------------*/
+/*-------------------------------------Get Book Details-------------------------------------*/
 export async function getBookDetails(key) {
   try {
     const res = await fetch(`${API_URL}${key}.json`);
@@ -66,10 +67,19 @@ export async function getBookDetails(key) {
   }
 }
 
-/*------------------------------------------Book Edition Information------------------------------------------*/
-export async function displayBookEditionInfo(key, pages, publishDate, publisher) {
+/*---------------------------------Book Edition Information---------------------------------*/
+export async function displayBookEditionInfo(
+  key,
+  pages,
+  publishDate,
+  publisher,
+) {
   // Get the array of entries containing editions and their keys
   const editionKey = await fetchEditionKey(key);
+
+  if (!editionKey) {
+    return;
+  }
 
   // Filter the entries to return the ones that are in english
   const englishEdition = editionKey.filter((edition) => {
@@ -78,7 +88,7 @@ export async function displayBookEditionInfo(key, pages, publishDate, publisher)
     );
   });
 
-  if (!englishEdition) {
+  if (englishEdition.length === 0) {
     return;
   }
 
@@ -87,12 +97,11 @@ export async function displayBookEditionInfo(key, pages, publishDate, publisher)
     return getPublishYear(a.publish_date) - getPublishYear(b.publish_date);
   });
 
-  // Selects the first edition
   const earliestEdition = englishEdition[0];
 
   // Fetch's the edition details using the earliest editions key.
   const editionDetails = await fetchEditionDetails(earliestEdition.key);
-  console.log(editionDetails);
+  
   // Display the information returned
   pages.textContent = editionDetails.number_of_pages || 'Not available';
   publishDate.textContent = formatPublishDate(editionDetails.publish_date);
@@ -100,8 +109,7 @@ export async function displayBookEditionInfo(key, pages, publishDate, publisher)
     editionDetails.publishers?.join(' - ') || 'Not available';
 }
 
-
-/*-----------------------------------Fetch edition key using the book workKey-----------------------------------*/
+/*-------------------------Fetch edition key using the book workKey-------------------------*/
 export async function fetchEditionKey(workKey) {
   try {
     const res = await fetch(
@@ -113,14 +121,13 @@ export async function fetchEditionKey(workKey) {
     }
 
     const data = await res.json();
-    console.log(data.entries);
     return data.entries;
   } catch (error) {
     console.error(error);
   }
 }
 
-/*---------------------------------Fetch edition details using the edition key---------------------------------*/
+/*------------------------Fetch edition details using the edition key------------------------*/
 export async function fetchEditionDetails(editionKey) {
   try {
     const res = await fetch(`${API_URL}${editionKey}.json`);
@@ -136,13 +143,22 @@ export async function fetchEditionDetails(editionKey) {
   }
 }
 
-/* Logic behind fetching a books edition info.
-1. To get a books edition info you need a edition key. to get the edition key I used the workKey from the books results to fetch a array of entries that contain many editions in different languages and publish dates. 
-2. I selected a edition that was in English and the earliest edition. The API does not provide a original edition.
-3. Once I selected the earliest edition I used the edition key to fetch the editions info that contained number of pages, date published etc. And displayed the data.
-*/
+/*
+ * Logic behind fetching a book's edition information:
+ *
+ * 1. To get a books edition info a edition key is needed which can be fetched by using a books workKey.
+ *    The API will return an array of entries containing many editions in different languages and publish dates.
+ *
+ * 2. Filter the editions to find those published in English, then select
+ *    the earliest one. The API does not identify which edition is the original.
+ *
+ * 3. Use the selected edition's key to fetch its full details, including
+ *    the number of pages and publication date.
+ *
+ * 4. Display the retrieved edition information on the book details page.
+ */
 
-/*----------------------------------------------Get Book Of The Day----------------------------------------------*/
+/*------------------------------------Get Book Of The Day------------------------------------*/
 export async function getBookOfTheDay() {
   try {
     const res = await fetch(`${API_URL}/trending/daily.json`);
@@ -158,11 +174,11 @@ export async function getBookOfTheDay() {
   }
 }
 
-/*------------------------------------Get Selected Genre-----------------------------------------------------------*/
+/*-------------------------------------Get Selected Genre-------------------------------------*/
 export async function getGenreBooks(genre) {
   try {
-    const res = await fetch(`${API_URL}/subjects/${genre}.json?limit=20`);
-    
+    const res = await fetch(`${API_URL}/subjects/${genre}.json?limit=30`);
+
     if (!res.ok) {
       throw new Error(`Failed to fetch ${genre} books`);
     }

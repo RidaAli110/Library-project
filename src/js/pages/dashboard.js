@@ -1,19 +1,18 @@
-import { Navbar } from './components/navbar.js';
+import { Navbar } from '../components/navbar.js';
 import {
   getBookDetails,
   getBookOfTheDay,
   getTrendingBooks,
   searchBook,
-} from './api/open-library.js';
-import { displayBookDescription } from './utils/book-description.js';
-import { displaySkeleton, hideSkeleton } from './components/skeleton-ui.js';
-import { showAPIerror } from './components/api-error-state.js';
+} from '../api/open-library.js';
+import { displayBookDescription } from '../utils/book-description.js';
+import { displaySkeleton, hideSkeleton } from '../components/skeleton-ui.js';
+import { showAPIerror } from '../components/api-error-state.js';
 
-/*----------------------------Variables----------------------------*/
+/*-------------------------------------Variables-------------------------------------*/
 const contentWrapper = document.querySelector('.content-wrapper');
 const pageContainer = document.querySelector('.page-container');
 const trendingList = document.querySelector('.trending-books-container');
-const searchInput = document.getElementById('book-search');
 const resultsContainer = document.querySelector('#search-results');
 const searchWrapper = document.querySelector('.search-input-wrapper');
 const input = document.getElementById('book-search');
@@ -26,21 +25,22 @@ const bookOfDayImg = document.querySelector('.book-o-t-d-img');
 const bookOfDayViewBtn = document.querySelector('.b-o-t-d-view-btn');
 const genreLinks = document.querySelectorAll('.genre-list-tags');
 
-/*----------------------------Navbar render----------------------------*/
-const navbarContainer = document.querySelector('#nav-bar');
-navbarContainer.append(Navbar('home'));
 
-/*----------------------------Event Listeners----------------------------*/
-searchInput.addEventListener('input', searchResults);
+/*-------------------------------------Event Listeners-------------------------------------*/
+document.addEventListener('click', closeInput);
+input.addEventListener('input', searchResults);
 input.addEventListener('input', toggleClearBtn);
 clearBtn.addEventListener('click', clearInput);
 searchForm.addEventListener('submit', searchSubmit);
 genreLinks.forEach((link) => {
   link.addEventListener('click', handleGenreClick);
 });
-document.addEventListener('click', closeInput);
 
-/*----------------------------Fetch Functions----------------------------*/
+/*-----------------------------------------Navbar render-----------------------------------------*/
+const navbarContainer = document.querySelector('#nav-bar');
+navbarContainer.append(Navbar('home'));
+
+/*-----------------------------------------Fetch Functions-----------------------------------------*/
 let books;
 let bookOfDay;
 
@@ -64,7 +64,6 @@ async function loadDashboard() {
     displayTrendingBooks();
     displayBookOfTheDay();
   } catch (error) {
-    console.error(error);
     pageContainer.style.display = 'none';
     showAPIerror(contentWrapper, loadDashboard);
   } finally {
@@ -77,10 +76,10 @@ loadDashboard();
 // Stores the controller so the last search request can be cancelled
 let controller;
 
-/* ------------------------Displaying Trending books from API-------------------------*/
+/* ----------------------------------Displaying Trending Books----------------------------------*/
 function displayTrendingBooks() {
   if (!books || books.length === 0) {
-    return; // display a state here
+    return;
   }
 
   books.forEach((book) => {
@@ -111,15 +110,16 @@ function displayTrendingBooks() {
     trendingList.appendChild(li);
   });
 }
-displayTrendingBooks();
 
-/*------------------------------Search for a book------------------------------ */
+
+/*----------------------------------------Search for a Book----------------------------------------*/
 function searchResults(e) {
+
   // Abort the previous request when a new search starts. also prevents unnecessary requests
   if (controller) {
     controller.abort();
   }
-  //Handles Input
+
   const userInput = e.target.value.trim();
   if (!userInput) {
     resultsContainer.innerHTML = '';
@@ -131,35 +131,26 @@ function searchResults(e) {
   performSearch(userInput);
 }
 
-// Handles fetch and display logic
+/*------Handles Fetch and Display Logic------*/
 async function performSearch(inputValue) {
-  // Creates a new controller for the current search request
+  // Cancels previous requests and checks if the current request was aborted.
   controller = new AbortController();
-
-  // Save this request's signal so we can check whether it was cancelled
   const signal = controller.signal;
-
-  // Pass the signal to searchBook so fetch can be cancelled
   const bookResults = await searchBook(inputValue, signal);
-
-  // If the current request is cancelled it will stop the function
   if (signal.aborted) {
     return;
   }
 
-  // This checks if the search results are an array before displaying the results
   if (!Array.isArray(bookResults)) {
     resultsContainer.style.display = 'none';
     return;
   }
 
-  // If there's no results then it will display a message and exit the function
   if (bookResults.length < 1) {
     resultsContainer.innerHTML = `<p class='no-result'>No books found. Try again.</p>`;
     return;
   }
 
-  
   if (bookResults.length > 0) {
     resultsContainer.style.display = 'block';
   }
@@ -188,42 +179,51 @@ async function performSearch(inputValue) {
   return bookResults;
 }
 
+/*------Handles Form Submission------*/
 async function searchSubmit(e) {
   e.preventDefault();
-  const searchInputValue = searchInput.value.trim();
-  if (searchInputValue === '') {
+  const inputValue = input.value.trim();
+  if (inputValue === '') {
     resultsContainer.innerHTML = '';
     resultsContainer.style.display = 'none';
     return;
   }
 
-  const results = await performSearch(searchInputValue);
-  if (!Array.isArray(results) || results.length < 1) {
+  const searchResults = await performSearch(inputValue);
+  if (!Array.isArray(searchResults) || searchResults.length < 1) {
     resultsContainer.innerHTML = `<p class='no-result'>No books found. Try again.</p>`;
     return;
   }
-  const firstBook = results[0];
-  window.location.href = `/src/pages/book-details.html?key=${firstBook.key}`;
+  const firstBookResult = searchResults[0];
+  window.location.href = `/src/pages/book-details.html?key=${firstBookResult.key}`;
 }
 
 function toggleClearBtn() {
   clearBtn.classList.toggle('visible', input.value.length > 0);
 }
+
 function clearInput() {
   input.value = '';
   toggleClearBtn();
 }
-// Update the clear button visibility when the page loads or is restored from browser history.
+
+function closeInput(e) {
+  if (!searchWrapper.contains(e.target)) {
+    resultsContainer.style.display = 'none';
+  }
+}
+
 window.addEventListener('pageshow', toggleClearBtn);
 
-/* -------------------------------Display Book Of The Day------------------------------- */
+
+/*---------------------------------------Display Book Of The Day---------------------------------------*/
 async function displayBookOfTheDay() {
   if (!bookOfDay || bookOfDay.length < 1) {
     return;
   }
 
-  // Displaying Book of the day details
   bookOfDayImg.src = `https://covers.openlibrary.org/b/id/${bookOfDay.cover_i}-M.jpg`;
+  bookOfDayImg.alt = `${bookOfDay.title} by ${bookOfDay.author_name}`;
   bookOfDayImg.onerror = () => {
     bookOfDayImg.onerror = null;
     bookOfDayImg.src = '/assets/images/No-Image-Placeholder.svg.webp';
@@ -235,9 +235,9 @@ async function displayBookOfTheDay() {
   const description = await getBookDetails(bookOfDay.key);
   displayBookDescription(description?.description, bookOfDayDesc);
 }
-displayBookOfTheDay();
 
-/* -------------------------------Explore Genres------------------------------- */
+
+/*--------------------------------------------Explore Genres--------------------------------------------*/
 function handleGenreClick(e) {
   e.preventDefault();
 
@@ -246,11 +246,4 @@ function handleGenreClick(e) {
   params.set('genre', genre);
 
   window.location.href = `/src/pages/genre-results.html?${params}`;
-}
-
-/* -------------------Closes the search results when clicked outside the input------------------- */
-function closeInput(e) {
-  if (!searchWrapper.contains(e.target)) {
-    resultsContainer.style.display = 'none';
-  }
 }

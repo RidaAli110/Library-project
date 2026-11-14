@@ -9,7 +9,7 @@ import {
 import { hideLoading, showLoading } from '../components/loading.js';
 import { showAPIerror } from '../components/api-error-state.js';
 
-/*-------------------------------------------Variables-------------------------------------------*/
+/*---------------------------------------Variables---------------------------------------*/
 const loadingWrapper = document.querySelector('.loading-wrapper');
 const pageContainer = document.querySelector('.page-container');
 const bookImg = document.querySelector('.book-details-img');
@@ -22,11 +22,10 @@ const publisher = document.querySelector('.publisher');
 const topicListContainer = document.querySelector('.topic-list');
 const saveBtn = document.querySelector('.save-btn');
 
-/*------------------------------------------Navbar render------------------------------------------*/
+/*---------------------------------------Navbar render---------------------------------------*/
 document.querySelector('#nav-bar').append(Navbar('book-details'));
 
-/*------------------------------------------Go back button------------------------------------------*/
-// This lets the user go back to the page they were last
+/*---------------------------------------Go back button---------------------------------------*/
 const backBtn = document.querySelector('.back-btn');
 backBtn?.addEventListener('click', () => {
   if (history.length > 1) {
@@ -36,7 +35,7 @@ backBtn?.addEventListener('click', () => {
   }
 });
 
-/*---------------------------------------Display Book Information---------------------------------------*/
+/*----------------------------------Display Book Information----------------------------------*/
 async function displayBookDetails() {
   const params = new URLSearchParams(window.location.search);
   const bookKey = params.get('key');
@@ -66,7 +65,7 @@ async function displayBookDetails() {
 
   document.title = bookDetails.title;
 
-  // Add details to page
+  
   if (bookDetails.covers?.length) {
     bookImg.src = `https://covers.openlibrary.org/b/id/${bookDetails.covers[0]}-L.jpg`;
   } else {
@@ -82,17 +81,13 @@ async function displayBookDetails() {
   displayTopics(bookDetails.subjects);
   displayBookEditionInfo(bookDetails.key, pages, publishDate, publisher);
 
-  // ---Save to my library button---
-  // On first load update save button text base on if it is saved already
   const msg = 'Remove from Library';
   updateSaveButtonText(saveBtn, bookDetails, msg);
-  // Add event listener to the save button of each book card
   handleSavedBook(saveBtn, bookDetails, msg);
 }
 
 /*--------------------Topics List-------------------- */
 function displayTopics(subjects) {
-  // Fallback for when there are no subjects
   if (!subjects || subjects.length === 0) {
     const p = document.createElement('p');
     p.classList.add('no-info-topics');
@@ -101,7 +96,6 @@ function displayTopics(subjects) {
     return;
   }
 
-  // Filter subjects to return topics less than 20 letters
   const filteredSubjects = subjects?.filter((subject) => {
     return subject.length < 20;
   });
@@ -114,7 +108,6 @@ function displayTopics(subjects) {
     return;
   }
 
-  // Select first 3 subjects and display on page
   const subjectList = filteredSubjects?.slice(0, 3);
   subjectList?.forEach((topic) => {
     const li = document.createElement('li');

@@ -15,7 +15,6 @@
 .results-card {
   display: flex;
   flex-direction: column;
-  /* align-items: center; check this when data is fetched to see if the text doesn't look awkward*/
   gap: 0.7rem;
   padding: 0.5rem;
   width: 100%;
@@ -82,7 +81,7 @@
   color: var(--secondary-text);
 }
 
-/* media queries */
+/* Media queries */
 @media (min-width: 500px) {
   #results-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 190px));

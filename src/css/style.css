@@ -27,20 +27,17 @@
   /* Navigation */
   --active-page: #35312e;
   --active-page-bg: #e9e4de;
-  /* Book covers and icons */
-  --book-cover-bg: #eae5df;
-  --icon-color: #634a39;
   /* Accessibility */
   --focus-outline: #634a39;
 }
 
-/* Global keyboard focus indicator */
+
 :focus-visible {
   outline: 3px solid var(--focus-outline);
   outline-offset: 3px;
 }
 
-/* Screen-reader-only content */
+/* Screen-reader-only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -103,13 +100,13 @@ body {
   width: 2rem;
 }
 
-.my-lib {
+.logo-title{
   font-size: 1.5rem;
   font-weight: 500;
   color: var(--text-and-headings);
 }
 
-.my-lib:hover {
+.logo-title:hover {
   color: var(--link-text);
 }
 
@@ -143,10 +140,6 @@ body {
   height: 25px;
 }
 
-/* Navigation icons */
-.page-img {
-  color: var(--icon-color);
-}
 
 /* Active page */
 .link-container.active {
@@ -217,7 +210,6 @@ body {
   font-size: 2rem;
   color: var(--text-and-headings);
   text-align: center;
-  /* font-family: inherit; */
 }
 
 .error-text {
@@ -284,7 +276,7 @@ body {
     width: 3rem;
   }
 
-  .my-lib {
+  .logo-title {
     font-size: 2rem;
   }
 
