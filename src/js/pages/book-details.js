@@ -65,7 +65,6 @@ async function displayBookDetails() {
 
   document.title = bookDetails.title;
 
-  
   if (bookDetails.covers?.length) {
     bookImg.src = `https://covers.openlibrary.org/b/id/${bookDetails.covers[0]}-L.jpg`;
   } else {
@@ -89,10 +88,7 @@ async function displayBookDetails() {
 /*--------------------Topics List-------------------- */
 function displayTopics(subjects) {
   if (!subjects || subjects.length === 0) {
-    const p = document.createElement('p');
-    p.classList.add('no-info-topics');
-    p.textContent = 'No topics information available';
-    topicListContainer.appendChild(p);
+    noTopicsMsg();
     return;
   }
 
@@ -101,10 +97,7 @@ function displayTopics(subjects) {
   });
 
   if (filteredSubjects.length === 0) {
-    const p = document.createElement('p');
-    p.classList.add('no-info-topics');
-    p.textContent = 'No topics information available';
-    topicListContainer.appendChild(p);
+    noTopicsMsg();
     return;
   }
 
@@ -117,4 +110,10 @@ function displayTopics(subjects) {
   });
 }
 
+function noTopicsMsg() {
+  const p = document.createElement('p');
+  p.classList.add('no-info-topics');
+  p.textContent = 'No topics information available';
+  topicListContainer.appendChild(p);
+}
 displayBookDetails();
